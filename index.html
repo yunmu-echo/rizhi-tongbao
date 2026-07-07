@@ -112,7 +112,7 @@ const PN={cz:'鲤想财资',zc:'锦鲤资产池',xgj:'鲤想薪管家',zy:'鲤�
 const PC={cz:'#007AFF',zc:'#5AC8FA',xgj:'#AF52DE',zy:'#FF9500',zgj:'#34C759'};
 let D=null,CM=null,role='fh',tab='all',quarter='q4',branch='',team='',cmLoaded=false;
 
-async function loadData(){try{const r=await fetch('data.json');D=await r.json();document.getElementById('dataDate').textContent=D.date||'';init();}catch(e){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载失败</div>';}}
+async function loadData(){try{const r=await fetch('data.json?t='+Date.now());D=await r.json();document.getElementById('dataDate').textContent=D.date||'';init();}catch(e){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载失败</div>';}}
 async function loadCM(){if(cmLoaded)return true;try{const r=await fetch('cm.json');CM=await r.json();cmLoaded=true;return true;}catch(e){return false;}}
 function init(){const bs=document.getElementById('selBranch');D.all_branches.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b.replace('上海','');bs.appendChild(o);});render();}
 
