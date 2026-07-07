@@ -152,6 +152,7 @@ render();
 function onTeamChange(){
 team=document.getElementById('selTeam').value;
 render();
+if(team)setTimeout(()=>navTo('table'),100);
 }
 
 function fillTeams(){
@@ -202,8 +203,8 @@ h+='</div>';
 h+='<div id="kpi"><div class="kpi-grid">';
 prods.forEach(p=>{
 if(['cz','zc','xgj'].includes(p)){
-const v=fb.reduce((s,b)=>s+b[p].value,0);const t=fb.reduce((s,b)=>s+b[p].target_year,0);
-const need=fb.reduce((s,b)=>s+b[p].ice_need,0);const done=fb.reduce((s,b)=>s+b[p].ice_done,0);
+const v=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_value']||b[p].value||0),0);const t=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_target_year']||b[p].target_year||0),0);
+const need=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_ice_need']||b[p].ice_need||0),0);const done=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_ice_done']||b[p].ice_done||0),0);
 const vr=pct(v,t),ir=pct(done,need);
 h+='<div class="kpi"><div class="icon">'+(p==='cz'?'💰':p==='zc'?'🏦':'💳')+'</div><div class="label">'+PN[p]+' 有价值</div><div class="value" style="color:'+PC[p]+'">'+v+'</div><div class="meta">目标 '+t+' · 达成 '+vr+'%</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(Number(vr),100)+'%;background:'+barColor(Number(vr))+'"></div></div></div>';
 h+='<div class="kpi"><div class="icon">🔥</div><div class="label">'+PN[p]+' 破冰</div><div class="value" style="color:'+PC[p]+'">'+ir+'%</div><div class="meta">'+done+' / '+need+' 已破冰</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(Number(ir),100)+'%;background:'+barColor(Number(ir))+'"></div></div></div>';
@@ -322,6 +323,7 @@ body='<div style="text-align:center;padding:20px;color:var(--text2)">暂无需�
 
 document.getElementById('modalBody').innerHTML=body;
 document.getElementById('modalOverlay').classList.add('show');
+}catch(e){alert('加载失败: '+e.message);}
 }catch(e){alert('加载失败: '+e.message);}
 }
 
