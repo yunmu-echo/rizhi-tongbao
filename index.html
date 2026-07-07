@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>融智产品通报</title>
 <style>
@@ -168,8 +168,8 @@ sel.appendChild(o);
 });
 }
 
-function getB(){let l=D.branches;if(role!=='fh'&&branch)l=l.filter(b=>b.branch===branch);return l;}
-function getT(){if(!D.teams)return[];let l=D.teams;if(branch)l=l.filter(t=>t.branch===branch);if(team)l=l.filter(t=>t.team===team);return l;}
+function getB(){if(!D||!D.branches)return[];let l=D.branches;if(role!=='fh'&&branch)l=l.filter(b=>b.branch===branch);return l;}
+function getT(){if(!D||!D.teams)return[];let l=D.teams;if(branch)l=l.filter(t=>t.branch===branch);if(team)l=l.filter(t=>t.team===team);return l;}
 function pct(v,t){return t>0?(v/t*100).toFixed(1):'0';}
 function barColor(r){return r>=80?'var(--green)':r>=50?'var(--blue)':'var(--orange)';}
 function badge(r,clickable,onclick){
@@ -180,6 +180,7 @@ return'<span class="'+cls+'"'+oc+'>'+r+'%</span>';
 }
 
 function render(){
+if(!D){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载中...</div>';return;}
 const fb=getB(),ft=getT();
 const prods=tab==='all'?['cz','zc','xgj','zy','zgj']:[tab];
 let h='';
@@ -269,6 +270,7 @@ document.getElementById('content').innerHTML=h;
 }
 
 async function showIceDetail(product,targetBranch,targetTeam){
+try{
 const loaded=await loadCM();
 if(!loaded||!CM){
 alert('客户经理数据加载中，请稍后重试');
@@ -320,6 +322,7 @@ body='<div style="text-align:center;padding:20px;color:var(--text2)">暂无需�
 
 document.getElementById('modalBody').innerHTML=body;
 document.getElementById('modalOverlay').classList.add('show');
+}catch(e){alert('加载失败: '+e.message);}
 }
 
 function closeModal(e){
