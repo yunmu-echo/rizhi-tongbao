@@ -2,284 +2,984 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>融智产品通报</title>
 <style>
-:root{--bg:#f5f6fa;--card:#fff;--text:#1a1a2e;--text2:#8e8e93;--blue:#007AFF;--green:#34C759;--orange:#FF9500;--red:#FF3B30;--purple:#AF52DE;--teal:#5AC8FA;--radius:14px;--gap:12px}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;padding-bottom:70px}
-.container{max-width:500px;margin:0 auto;padding:var(--gap)}
-.header{background:linear-gradient(135deg,#1a1a2e 0%,#2d2d44 100%);color:#fff;padding:20px 16px 16px;border-radius:0 0 20px 20px;margin:-12px -12px var(--gap);position:sticky;top:0;z-index:100}
-.header h1{font-size:20px;font-weight:700}
-.header .sub{font-size:14px;opacity:.8;margin-top:4px;font-weight:500}
-.header .role-row{display:flex;gap:8px;margin-top:12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.role-btn{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:#fff;white-space:nowrap;cursor:pointer;transition:all .2s;flex-shrink:0}
-.role-btn.active{background:#fff;color:#1a1a2e;border-color:#fff}
-.filter-row{display:flex;gap:8px;margin-bottom:var(--gap);overflow-x:auto;padding:2px}
-.filter-row select{padding:8px 12px;border:1.5px solid #e0e0e0;border-radius:10px;background:#fff;font-size:14px;color:var(--text);min-width:120px;flex-shrink:0;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%238e8e93'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
-.tabs{display:flex;gap:6px;margin-bottom:var(--gap);overflow-x:auto;padding:2px}
-.tab{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;color:var(--text2);background:#fff;white-space:nowrap;cursor:pointer;transition:all .2s;flex-shrink:0;border:1.5px solid transparent}
-.tab.active{color:var(--blue);border-color:var(--blue);background:rgba(0,122,255,.08)}
-.glossary{background:var(--card);border-radius:var(--radius);padding:12px 16px;margin-bottom:var(--gap);box-shadow:0 1px 3px rgba(0,0,0,.04);font-size:12px;color:var(--text2);line-height:1.8}
-.glossary summary{font-size:13px;font-weight:600;color:var(--text);cursor:pointer}
-.summary-card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:var(--gap);box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.summary-card h3{font-size:15px;font-weight:700;margin-bottom:12px}
-.summary-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f5f5f5}
-.summary-row:last-child{border:none}
-.summary-row .name{font-size:14px;font-weight:600}
-.summary-row .nums{display:flex;gap:12px;font-size:13px;align-items:center}
-.summary-row .nums .val{font-weight:700;font-size:16px}
-.summary-row .nums .tgt{color:var(--text2)}
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-bottom:var(--gap)}
-.kpi{background:var(--card);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.kpi .icon{font-size:28px;margin-bottom:8px}.kpi .label{font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.kpi .value{font-size:30px;font-weight:800;margin:4px 0}.kpi .meta{font-size:11px;color:var(--text2)}
-.kpi .bar{height:4px;background:#f0f0f0;border-radius:2px;margin-top:10px}.kpi .bar-fill{height:100%;border-radius:2px;transition:width .8s ease}
-.table-card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:var(--gap);box-shadow:0 1px 3px rgba(0,0,0,.04);overflow-x:auto}
-.table-card h3{font-size:15px;font-weight:700;margin-bottom:12px}
-.mtable{width:100%;border-collapse:collapse;font-size:13px}
-.mtable th{text-align:left;padding:8px 6px;border-bottom:2px solid #e8e8e8;color:var(--text2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;position:sticky;top:0;background:#fff}
-.mtable td{padding:10px 6px;border-bottom:1px solid #f5f5f5;white-space:nowrap}
-.mtable tr:active{background:#f0f5ff}
-.mtable tr.rank-top{background:rgba(52,199,89,.08)}.mtable tr.rank-top td:first-child{border-left:3px solid var(--green)}
-.mtable tr.rank-bottom{background:rgba(255,59,48,.06)}.mtable tr.rank-bottom td:first-child{border-left:3px solid var(--red)}
-.mtable tr.rank-mine{background:rgba(0,122,255,.08)}.mtable tr.rank-mine td:first-child{border-left:3px solid var(--blue)}
-.mtable tr.rank-near{background:rgba(0,122,255,.04)}
-.mtable tr.rank-ellipsis{background:transparent}.mtable tr.rank-ellipsis td{text-align:center;color:var(--text2);font-size:12px;padding:6px;border-bottom:1px dashed #e0e0e0}
-.badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700}
-.badge.clickable{cursor:pointer;transition:all .2s}.badge.clickable:active{transform:scale(0.95);opacity:0.8}
-.b-g{background:#d4edda;color:#155724}.b-y{background:#fff3cd;color:#856404}.b-r{background:#f8d7da;color:#721c24}.b-b{background:#d1ecf1;color:#0c5460}.b-gray{background:#e9ecef;color:#6c757d}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid #e0e0e0;display:flex;justify-content:space-around;padding:8px 0;z-index:100}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:var(--text2);cursor:pointer;padding:4px 12px;border-radius:8px;transition:all .2s}
-.nav-item.active{color:var(--blue);background:rgba(0,122,255,.08)}.nav-item .nav-icon{font-size:20px}
-.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:flex-end}
-.modal-overlay.show{display:flex}
-.modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px 16px 30px}
-.modal h3{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
-.modal .close-btn{font-size:24px;cursor:pointer;color:var(--text2);padding:4px 8px}
-.modal .cm-section{margin-bottom:16px}
-.modal .cm-section h4{font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.modal .cm-list{list-style:none}
-.modal .cm-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
-.modal .cm-item:last-child{border:none}
-.modal .cm-name{font-weight:600;font-size:14px}
-.modal .cm-info{font-size:12px;color:var(--text2)}
-::-webkit-scrollbar{display:none}*{scrollbar-width:none}
-@media print{.bottom-nav,.header,.filter-row,.tabs{display:none}body{padding:0}}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #10b981; --blue: #3b82f6; --orange: #f59e0b; --red: #ef4444;
+  --gray: #9ca3af; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937;
+  --border: #e5e7eb; --light-green: #d1fae5; --light-red: #fee2e2;
+}
+body {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5;
+  max-width: 500px; margin: 0 auto; min-height: 100vh; padding-bottom: 70px;
+}
+.header {
+  background: linear-gradient(135deg, #1e40af, #3b82f6); color: white;
+  padding: 16px 20px; position: sticky; top: 0; z-index: 100;
+}
+.header h1 { font-size: 18px; font-weight: 600; }
+.header .date { font-size: 12px; opacity: 0.9; margin-top: 4px; font-weight: 500; }
+.header .back-btn {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.2); border: none; color: white; width: 32px;
+  height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; display: none;
+}
+.header.has-back .back-btn { display: flex; align-items: center; justify-content: center; }
+.header.has-back h1 { padding-left: 28px; }
+
+/* Role Switcher */
+.role-bar {
+  display: flex; gap: 8px; padding: 12px 16px; background: white;
+  border-bottom: 1px solid var(--border); align-items: center; flex-wrap: wrap;
+}
+.role-bar select {
+  flex: 1; min-width: 80px; padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 13px; background: white; color: var(--text);
+}
+.role-btn {
+  padding: 8px 16px; border: 1px solid var(--blue); background: white; color: var(--blue);
+  border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap;
+}
+.role-btn.active { background: var(--blue); color: white; }
+
+/* Q3/Q4 Toggle */
+.quarter-toggle {
+  display: flex; gap: 4px; background: var(--bg); border-radius: 8px; padding: 3px;
+}
+.quarter-toggle button {
+  padding: 6px 14px; border: none; border-radius: 6px; font-size: 12px;
+  cursor: pointer; background: transparent; color: var(--gray); font-weight: 500;
+}
+.quarter-toggle button.active { background: var(--blue); color: white; }
+
+/* Product Cards - Home */
+.home-grid { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.product-card {
+  background: white; border-radius: 12px; padding: 16px; cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: transform 0.15s;
+}
+.product-card:active { transform: scale(0.98); }
+.product-card .card-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+}
+.product-card .card-title { font-size: 16px; font-weight: 600; }
+.product-card .card-badge {
+  font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 500;
+}
+.card-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+.card-metric { text-align: center; }
+.card-metric .metric-value { font-size: 20px; font-weight: 700; }
+.card-metric .metric-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+/* KPI Section */
+.kpi-section { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; padding: 16px; }
+.kpi-box {
+  background: white; border-radius: 10px; padding: 12px 8px; text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.kpi-box .kpi-value { font-size: 30px; font-weight: 800; line-height: 1.1; }
+.kpi-box .kpi-label { font-size: 11px; color: var(--gray); margin-top: 4px; }
+.kpi-box .kpi-sub { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+/* Progress Bar */
+.progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: 6px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+/* Tables */
+.table-section { padding: 0 12px 12px; }
+.table-title {
+  font-size: 15px; font-weight: 600; padding: 12px 4px 8px; display: flex;
+  justify-content: space-between; align-items: center;
+}
+.data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.data-table th {
+  background: #f9fafb; padding: 10px 8px; font-size: 12px; font-weight: 600;
+  color: var(--gray); text-align: left; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+}
+.data-table td {
+  padding: 10px 8px; font-size: 13px; border-bottom: 1px solid #f3f4f6;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr.clickable { cursor: pointer; }
+.data-table tr.clickable:active { background: #f9fafb; }
+.rank-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700;
+}
+.rank-1 { background: #fef3c7; color: #d97706; }
+.rank-2 { background: #e5e7eb; color: #6b7280; }
+.rank-3 { background: #fed7aa; color: #c2410c; }
+.rank-top { background: var(--light-green); color: var(--green); }
+.rank-bottom { background: var(--light-red); color: var(--red); }
+.text-green { color: var(--green); font-weight: 600; }
+.text-blue { color: var(--blue); font-weight: 600; }
+.text-orange { color: var(--orange); font-weight: 600; }
+.text-red { color: var(--red); font-weight: 600; }
+.text-gray { color: var(--gray); font-weight: 500; }
+
+/* Expandable rows */
+.expand-row { display: none; }
+.expand-row.open { display: table-row; }
+.expand-content { padding: 8px; }
+.expand-table { width: 100%; border-collapse: collapse; }
+.expand-table th {
+  padding: 8px 6px; font-size: 11px; background: #f9fafb; color: var(--gray);
+  font-weight: 600; text-align: left;
+}
+.expand-table td { padding: 8px 6px; font-size: 12px; border-bottom: 1px solid #f3f4f6; }
+.expand-table tr.clickable { cursor: pointer; }
+.expand-table tr.clickable:active { background: #f9fafb; }
+.expand-icon { display: inline-block; transition: transform 0.2s; font-size: 10px; margin-right: 4px; color: var(--gray); }
+.expand-icon.open { transform: rotate(90deg); }
+
+/* CM List */
+.cm-list { background: #f9fafb; border-radius: 8px; margin: 4px 0; }
+.cm-item {
+  display: flex; align-items: center; padding: 8px 10px; font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.cm-item:last-child { border-bottom: none; }
+.cm-name { font-weight: 600; width: 60px; }
+.cm-info { flex: 1; color: var(--gray); }
+.cm-icons { display: flex; gap: 4px; }
+.cm-icon {
+  display: inline-flex; align-items: center; gap: 2px; font-size: 11px;
+  padding: 2px 6px; border-radius: 4px;
+}
+.cm-icon.done { background: var(--light-green); color: var(--green); }
+.cm-icon.need { background: #fef3c7; color: var(--orange); }
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  max-width: 500px; width: 100%; background: white; border-top: 1px solid var(--border);
+  display: flex; z-index: 100; padding: 6px 0 env(safe-area-inset-bottom, 8px);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 2px; cursor: pointer; border: none; background: none; color: var(--gray);
+  font-size: 10px; transition: color 0.2s;
+}
+.nav-item.active { color: var(--blue); }
+.nav-item .nav-icon { font-size: 20px; }
+.nav-item .nav-label { font-weight: 500; white-space: nowrap; }
+
+/* Terminology Panel */
+.terminology {
+  margin: 12px 16px; background: white; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.terminology-header {
+  padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; font-size: 14px; font-weight: 600;
+}
+.terminology-body { padding: 0 16px; display: none; }
+.terminology-body.open { display: block; padding: 0 16px 12px; }
+.term-item { padding: 6px 0; font-size: 12px; border-bottom: 1px solid #f3f4f6; }
+.term-item:last-child { border-bottom: none; }
+.term-name { font-weight: 600; color: var(--blue); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200;
+  display: none; align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-content {
+  background: white; width: 100%; max-width: 500px; max-height: 70vh;
+  border-radius: 16px 16px 0 0; overflow-y: auto; padding: 20px;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.modal-title { font-size: 16px; font-weight: 600; }
+.modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray); }
+
+/* Loading */
+.loading { text-align: center; padding: 40px; color: var(--gray); }
+.loading::after { content: ''; display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Utility */
+.hidden { display: none !important; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.text-center { text-align: center; }
+.mt-8 { margin-top: 8px; }
+.px-16 { padding-left: 16px; padding-right: 16px; }
 </style>
 </head>
 <body>
-<div class="container">
-<div class="header">
-<h1>📊 融智产品通报</h1>
-<div class="sub">上海分行 · 数据日期 <span id="dataDate"></span></div>
-<div class="role-row">
-<div class="role-btn active" onclick="setRole('fh')" data-role="fh">🏦 分行</div>
-<div class="role-btn" onclick="setRole('zh')" data-role="zh">🏢 支行</div>
-<div class="role-btn" onclick="setRole('td')" data-role="td">👥 团队</div>
-</div>
+
+<!-- Header -->
+<div class="header" id="header">
+  <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
+  <h1 id="headerTitle">融智产品通报</h1>
+  <div class="date" id="headerDate"></div>
 </div>
 
-<div class="filter-row" id="filterRow" style="display:none">
-<select id="selBranch" onchange="onBranchChange()"><option value="">选择支行</option></select>
-<select id="selTeam" onchange="onTeamChange()" style="display:none"><option value="">选择团队</option></select>
+<!-- Home View -->
+<div id="homeView">
+  <!-- Role Switcher -->
+  <div class="role-bar">
+    <button class="role-btn active" data-role="branch_all" onclick="switchRole('branch_all')">分行</button>
+    <button class="role-btn" data-role="sub_branch" onclick="switchRole('sub_branch')">支行</button>
+    <button class="role-btn" data-role="team" onclick="switchRole('team')">团队</button>
+    <select id="branchSelect" class="hidden" onchange="onBranchChange()">
+      <option value="">选择支行</option>
+    </select>
+    <select id="teamSelect" class="hidden" onchange="onTeamChange()">
+      <option value="">选择团队</option>
+    </select>
+    <div class="quarter-toggle">
+      <button class="active" data-q="q4" onclick="switchQuarter('q4')">Q4</button>
+      <button data-q="q3" onclick="switchQuarter('q3')">Q3</button>
+    </div>
+  </div>
+
+  <div class="home-grid" id="homeGrid"></div>
+
+  <!-- Terminology -->
+  <div class="terminology">
+    <div class="terminology-header" onclick="toggleTerminology()">
+      <span>📖 术语说明</span>
+      <span class="expand-icon" id="termIcon">▶</span>
+    </div>
+    <div class="terminology-body" id="termBody">
+      <div class="term-item"><span class="term-name">有价值客户数：</span>当前时点有价值客户存量数</div>
+      <div class="term-item"><span class="term-name">Q4目标：</span>四季度净增目标值</div>
+      <div class="term-item"><span class="term-name">净增完成率：</span>(当前数-期初数)/目标数×100%</div>
+      <div class="term-item"><span class="term-name">破冰率：</span>已破冰客户数/应破冰客户数×100%</div>
+      <div class="term-item"><span class="term-name">鲤想财资：</span>企业财资管理产品</div>
+      <div class="term-item"><span class="term-name">锦鲤资产池：</span>资产池理财产品</div>
+      <div class="term-item"><span class="term-name">鲤想薪管家：</span>代发薪产品</div>
+      <div class="term-item"><span class="term-name">鲤想智园：</span>智慧园区产品</div>
+      <div class="term-item"><span class="term-name">鲤想住管家：</span>住房租赁产品</div>
+    </div>
+  </div>
 </div>
 
-<details class="glossary">
-<summary>📖 术语说明</summary>
-<div style="margin-top:8px">
-<strong>有价值客户：</strong>具有较高商业价值的客户，是各产品的核心考核指标<br>
-<strong>破冰：</strong>新客户经理首次成功拓展该产品客户<br>
-<strong>净增：</strong>当前有价值客户数 - 年初数<br>
-<strong>完成率：</strong>净增 ÷ 净增目标 × 100%
-</div>
-</details>
-
-<div class="tabs" id="tabs">
-<div class="tab active" onclick="setTab('cz')" data-tab="cz">💰 鲤想财资</div>
-<div class="tab" onclick="setTab('zc')" data-tab="zc">🏦 锦鲤资产池</div>
-<div class="tab" onclick="setTab('xgj')" data-tab="xgj">💳 鲤想薪管家</div>
-<div class="tab" onclick="setTab('zy')" data-tab="zy">🏗️ 鲤想智园</div>
-<div class="tab" onclick="setTab('zgj')" data-tab="zgj">🏠 鲤想住管家</div>
+<!-- Detail View -->
+<div id="detailView" class="hidden">
+  <div class="kpi-section" id="kpiSection"></div>
+  <div class="table-section">
+    <div class="table-title">
+      <span>🏆 排名（按净增完成率）</span>
+    </div>
+    <div id="rankTableWrap"></div>
+  </div>
+  <div class="table-section">
+    <div class="table-title"><span>📊 支行明细</span></div>
+    <div id="branchTableWrap"></div>
+  </div>
 </div>
 
-<div id="content"></div>
+<!-- Ice-break Modal -->
+<div class="modal-overlay" id="iceModal" onclick="closeIceModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="iceModalTitle">破冰明细</div>
+      <button class="modal-close" onclick="closeIceModal()">&times;</button>
+    </div>
+    <div id="iceModalBody"></div>
+  </div>
 </div>
 
-<div class="bottom-nav">
-<div class="nav-item active" onclick="setTab('cz')" data-nav="cz"><div class="nav-icon">💰</div>财资</div>
-<div class="nav-item" onclick="setTab('zc')" data-nav="zc"><div class="nav-icon">🏦</div>资产池</div>
-<div class="nav-item" onclick="setTab('xgj')" data-nav="xgj"><div class="nav-icon">💳</div>薪管家</div>
-<div class="nav-item" onclick="setTab('zy')" data-nav="zy"><div class="nav-icon">🏗️</div>智园</div>
-<div class="nav-item" onclick="setTab('zgj')" data-nav="zgj"><div class="nav-icon">🏠</div>住管家</div>
-</div>
-
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-<div class="modal" id="modalContent" onclick="event.stopPropagation()">
-<h3><span id="modalTitle">破冰明细</span><span class="close-btn" onclick="closeModal()">&times;</span></h3>
-<div id="modalBody"></div>
-</div>
+<!-- Bottom Navigation -->
+<div class="bottom-nav" id="bottomNav">
+  <button class="nav-item active" data-product="cz" onclick="navTo('cz')">
+    <span class="nav-icon">💰</span><span class="nav-label">鲤想财资</span>
+  </button>
+  <button class="nav-item" data-product="zc" onclick="navTo('zc')">
+    <span class="nav-icon">🏊</span><span class="nav-label">锦鲤资产池</span>
+  </button>
+  <button class="nav-item" data-product="xgj" onclick="navTo('xgj')">
+    <span class="nav-icon">💼</span><span class="nav-label">鲤想薪管家</span>
+  </button>
+  <button class="nav-item" data-product="zy" onclick="navTo('zy')">
+    <span class="nav-icon">🏢</span><span class="nav-label">鲤想智园</span>
+  </button>
+  <button class="nav-item" data-product="zgj" onclick="navTo('zgj')">
+    <span class="nav-icon">🏠</span><span class="nav-label">鲤想住管家</span>
+  </button>
 </div>
 
 <script>
-const PN={cz:'鲤想财资',zc:'锦鲤资产池',xgj:'鲤想薪管家',zy:'鲤想智园',zgj:'鲤想住管家'};
-const PC={cz:'#007AFF',zc:'#5AC8FA',xgj:'#AF52DE',zy:'#FF9500',zgj:'#34C759'};
-let D=null,CM=null,role='fh',tab='cz',branch='',team='',cmLoaded=false;
+// ============ State ============
+let DATA = null;
+let CM_DATA = null;
+let currentProduct = 'cz';
+let currentQuarter = 'q4';
+let currentRole = 'branch_all';
+let currentBranch = '';
+let currentTeam = '';
+let currentView = 'home'; // home | detail
+let cmCache = {};
 
-async function loadData(){try{const r=await fetch('data.json?t='+Date.now());D=await r.json();document.getElementById('dataDate').textContent=D.date||'';init();}catch(e){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载失败</div>';}}
-async function loadCM(){if(cmLoaded)return true;try{const r=await fetch('cm.json?t='+Date.now());CM=await r.json();cmLoaded=true;return true;}catch(e){return false;}}
-function init(){const bs=document.getElementById('selBranch');D.all_branches.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b.replace('上海','');bs.appendChild(o);});render();}
+const PRODUCTS = {
+  cz:  { name: '鲤想财资', icon: '💰', fields: { value: 'value', start: 'start', q3: 'q3', q4: 'q4', net: 'net', net_target: 'net_q4_target', ice: 'ice' } },
+  zc:  { name: '锦鲤资产池', icon: '🏊', fields: { value: 'zc_value', ice: 'zc_ice' } },
+  xgj: { name: '鲤想薪管家', icon: '💼', fields: { value: 'xgj_value', ice: 'xgj_ice' } },
+  zy:  { name: '鲤想智园', icon: '🏢', fields: { value: 'zy_value', ice: 'zy_ice' } },
+  zgj: { name: '鲤想住管家', icon: '🏠', fields: { value: 'zgj_value', ice: 'zgj_ice' } }
+};
 
-function setRole(r){role=r;document.querySelectorAll('.role-btn').forEach(b=>b.classList.toggle('active',b.dataset.role===r));document.getElementById('filterRow').style.display=r==='fh'?'none':'flex';document.getElementById('selTeam').style.display=r==='td'?'inline-block':'none';if(r==='fh'){branch='';team='';document.getElementById('selBranch').value='';document.getElementById('selTeam').innerHTML='<option value="">选择团队</option>';}if(r==='zh'){team='';document.getElementById('selTeam').innerHTML='<option value="">选择团队</option>';}render();}
-function setTab(t){tab=t;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===t));render();}
-function onBranchChange(){branch=document.getElementById('selBranch').value;team='';fillTeams();render();}
-function onTeamChange(){team=document.getElementById('selTeam').value;render();}
-function fillTeams(){const sel=document.getElementById('selTeam');sel.innerHTML='<option value="">选择团队</option>';if(!branch||!D.teams)return;const ts=[...new Set(D.teams.filter(t=>t.branch===branch).map(t=>t.team))].sort();ts.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t.replace('上海','').replace(branch.replace('上海',''),'');sel.appendChild(o);});}
+// CM field mapping per product
+const CM_FIELDS = {
+  cz: { need: 'cn', done: 'cd' },
+  zc: { need: 'zn', done: 'zd' },
+  xgj: { need: 'xn', done: 'xd' }
+};
 
-function getB(){if(!D||!D.branches)return[];let l=D.branches;if(role!=='fh'&&branch)l=l.filter(b=>b.branch===branch);return l;}
-function getT(){if(!D||!D.teams)return[];let l=D.teams;if(branch)l=l.filter(t=>t.branch===branch);if(team)l=l.filter(t=>t.team===team);return l;}
-function pct(v,t){if(t<=0)return'-';return(v/t*100).toFixed(1);}
-function barColor(r){return r>=80?'var(--green)':r>=50?'var(--blue)':'var(--orange)';}
-function badge(r){if(r==='-')return'<span class="badge b-gray">-</span>';const n=Number(r);const c=n>=80?'b-g':n>=50?'b-y':n>=0?'b-r':'b-gray';return'<span class="badge '+c+'">'+r+'%</span>';}
-function netBadge(rate){if(rate==='-')return'<span class="badge b-gray">-</span>';const n=Number(rate);if(n<0)return'<span class="badge b-gray">未达标</span>';const c=n>=100?'b-g':n>=60?'b-b':'b-y';return'<span class="badge '+c+'">'+rate+'%</span>';}
-
-function render(){
-if(!D){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载中...</div>';return;}
-const fb=getB(),ft=getT();
-const p=tab;
-const d=D.branches;
-let h='';
-
-// 1. Summary card for current product
-h+='<div class="summary-card">';
-h+='<h3 style="color:'+PC[p]+'">'+PN[p]+' · 总览</h3>';
-
-if(['cz','zc','xgj'].includes(p)){
-const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
-const start=fb.reduce((s,b)=>s+(b[p]?b[p].start||0:0),0);
-const tgt=fb.reduce((s,b)=>s+(b[p]?b[p].q4||0:0),0);
-const need=fb.reduce((s,b)=>s+(b[p]&&b[p].ice?b[p].ice.need||0:0),0);
-const done=fb.reduce((s,b)=>s+(b[p]&&b[p].ice?b[p].ice.done||0:0),0);
-const net=v-start;const netTgt=tgt-start;
-const nr=pct(net,netTgt);const ir=pct(done,need);
-h+='<div class="summary-row"><div class="name">有价值客户</div><div class="nums"><span class="val">'+v+'</span><span class="tgt">目标 '+tgt+'</span></div></div>';
-h+='<div class="summary-row"><div class="name">净增完成</div><div class="nums"><span class="val">'+net+'</span><span class="tgt">/ '+netTgt+' 目标</span>'+netBadge(nr)+'</div></div>';
-h+='<div class="summary-row"><div class="name">破冰进度</div><div class="nums"><span class="val">'+done+'</span><span class="tgt">/ '+need+' 需破冰</span>'+badge(ir)+'</div></div>';
-}else if(p==='zy'){
-const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
-h+='<div class="summary-row"><div class="name">有价值项目</div><div class="nums"><span class="val">'+v+'</span></div></div>';
-}else{
-const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
-h+='<div class="summary-row"><div class="name">有价值客户</div><div class="nums"><span class="val">'+v+'</span></div></div>';
-}
-h+='</div>';
-
-// 2. KPI cards (2x2 grid)
-if(['cz','zc','xgj'].includes(p)){
-const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
-const start=fb.reduce((s,b)=>s+(b[p]?b[p].start||0:0),0);
-const tgt=fb.reduce((s,b)=>s+(b[p]?b[p].q4||0:0),0);
-const need=fb.reduce((s,b)=>s+(b[p]&&b[p].ice?b[p].ice.need||0:0),0);
-const done=fb.reduce((s,b)=>s+(b[p]&&b[p].ice?b[p].ice.done||0:0),0);
-const net=v-start;const netTgt=tgt-start;
-const nr=netTgt>0?Math.round(net/netTgt*100):0;
-const ir=need>0?Math.round(done/need*100):0;
-h+='<div class="kpi-grid">';
-h+='<div class="kpi"><div class="icon">💰</div><div class="label">有价值客户</div><div class="value" style="color:'+PC[p]+'">'+v+'</div><div class="meta">目标 '+tgt+'</div></div>';
-h+='<div class="kpi"><div class="icon">📈</div><div class="label">净增完成率</div><div class="value" style="color:'+PC[p]+'">'+nr+'%</div><div class="meta">净增 '+net+' / 目标 '+netTgt+'</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(nr,100)+'%;background:'+barColor(nr)+'"></div></div></div>';
-h+='<div class="kpi"><div class="icon">🔥</div><div class="label">破冰完成率</div><div class="value" style="color:'+PC[p]+'">'+ir+'%</div><div class="meta">'+done+' / '+need+' 已破冰</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(ir,100)+'%;background:'+barColor(ir)+'"></div></div></div>';
-h+='<div class="kpi"><div class="icon">📊</div><div class="label">支行数</div><div class="value" style="color:'+PC[p]+'">'+fb.length+'</div><div class="meta">参与机构</div></div>';
-h+='</div>';
+// ============ Data Loading ============
+async function loadData() {
+  try {
+    const resp = await fetch(`data.json?t=${Date.now()}`);
+    DATA = await resp.json();
+    document.getElementById('headerDate').textContent = `数据日期：${DATA.date || new Date().toLocaleDateString('zh-CN')}`;
+    populateBranchSelect();
+    renderHome();
+  } catch (e) {
+    document.getElementById('homeGrid').innerHTML = '<div class="loading">加载失败，请刷新重试</div>';
+    console.error(e);
+  }
 }
 
-// 3. Ranking table
-if(['cz','zc','xgj'].includes(p)){
-const ranked=fb.map(item=>{const d=item[p];if(!d)return{...item,rate:0};const net=d.value-(d.start||0);const tgt=(d.q4||0)-(d.start||0);return{...item,rate:tgt>0?Math.round(net/tgt*100):0};}).sort((a,b)=>b.rate-a.rate).map((item,i)=>({...item,rank:i+1}));
-const len=ranked.length;
-const myIdx=branch?ranked.findIndex(r=>r.branch===branch):-1;
-
-h+='<div class="table-card"><h3>🏆 '+PN[p]+' 排名</h3>';
-h+='<div style="font-size:12px;color:var(--text2);margin-bottom:12px">按Q4净增完成率排序 · 点击破冰率可查看客户经理明细 👆</div>';
-h+='<table class="mtable"><thead><tr><th>#</th><th>支行</th><th>当前</th><th>净增</th><th>目标</th><th>完成率</th><th>破冰率</th></tr></thead><tbody>';
-
-const showSet=new Set();
-for(let i=0;i<Math.min(3,len);i++)showSet.add(i);
-for(let i=Math.max(0,len-3);i<len;i++)showSet.add(i);
-if(myIdx>=0){for(let i=Math.max(0,myIdx-3);i<=Math.min(len-1,myIdx+3);i++)showSet.add(i);}
-if(role==='fh'){for(let i=0;i<len;i++)showSet.add(i);}
-const sorted=Array.from(showSet).sort((a,b)=>a-b);
-let last=-1;
-sorted.forEach(idx=>{
-if(last>=0&&idx-last>1)h+='<tr class="rank-ellipsis"><td colspan="7">⋯ 省略 '+(idx-last-1)+' 个支行 ⋯</td></tr>';
-const item=ranked[idx];
-const d=item[p];const net=d.value-(d.start||0);const tgt=(d.q4||0)-(d.start||0);
-const ir=d.ice?d.ice.rate||0:0;
-const cls=idx===myIdx?'rank-mine':idx<3?'rank-top':idx>=len-3?'rank-bottom':Math.abs(idx-myIdx)<=3?'rank-near':'';
-const iceClick="showIceDetail('"+p+"','"+item.branch+"','')";
-h+='<tr class="'+cls+'"><td>'+item.rank+'</td><td><strong>'+item.branch.replace('上海','').replace('支行','')+'</strong></td><td>'+d.value+'</td><td>'+net+'</td><td>'+tgt+'</td><td>'+netBadge(item.rate)+'</td><td><span class="badge clickable '+(ir>=80?'b-g':ir>=50?'b-y':'b-r')+'" onclick="'+iceClick+'">'+ir+'%</span></td></tr>';
-last=idx;
-});
-h+='</tbody></table></div>';
+async function loadCM() {
+  if (CM_DATA) return CM_DATA;
+  try {
+    const resp = await fetch(`cm.json?t=${Date.now()}`);
+    CM_DATA = await resp.json();
+    return CM_DATA;
+  } catch (e) {
+    console.error('cm.json load failed', e);
+    return [];
+  }
 }
 
-// 4. Detail table (simplified)
-h+='<div class="table-card"><h3>📋 支行明细</h3>';
-h+='<div style="overflow-x:auto"><table class="mtable"><thead><tr><th>支行</th>';
-if(['cz','zc','xgj'].includes(p))h+='<th>当前</th><th>净增/目标</th><th>完成率</th><th>破冰率</th>';
-else if(p==='zy')h+='<th>有价值项目</th><th>破冰</th>';
-else h+='<th>有价值</th><th>破冰</th>';
-h+='</tr></thead><tbody>';
-fb.forEach(b=>{
-h+='<tr><td><strong>'+b.branch.replace('上海','').replace('支行','')+'</strong></td>';
-if(['cz','zc','xgj'].includes(p)){
-const d=b[p];if(!d){h+='<td>-</td><td>-</td><td>-</td><td>-</td>';return;}
-const net=d.value-(d.start||0);const tgt=(d.q4||0)-(d.start||0);
-const nr=pct(net,tgt);const ir=d.ice?d.ice.rate||0:0;
-h+='<td>'+d.value+'</td><td>'+net+'/'+tgt+'</td><td>'+netBadge(nr)+'</td><td>'+badge(ir)+'</td>';
-}else if(p==='zy'){
-h+='<td>'+(b[p]?b[p].value:0)+'</td><td>'+(b[p]?b[p].ice:'否')+'</td>';
-}else{
-h+='<td>'+(b[p]?b[p].value:0)+'</td><td>'+(b[p]?b[p].ice:'否')+'</td>';
-}
-h+='</tr>';
-});
-h+='</tbody></table></div></div>';
-
-document.getElementById('content').innerHTML=h;
+// ============ Role Switching ============
+function switchRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b => b.classList.toggle('active', b.dataset.role === role));
+  const bs = document.getElementById('branchSelect');
+  const ts = document.getElementById('teamSelect');
+  bs.classList.toggle('hidden', role === 'branch_all');
+  ts.classList.toggle('hidden', role !== 'team');
+  if (role === 'branch_all') { currentBranch = ''; currentTeam = ''; }
+  renderCurrentView();
 }
 
-async function showIceDetail(product,targetBranch,targetTeam){
-try{
-const loaded=await loadCM();
-if(!loaded||!CM){alert('数据加载中');return;}
-let cms=CM.filter(c=>c.b===targetBranch);
-if(targetTeam)cms=cms.filter(c=>c.t===targetTeam);
-const needField=product==='cz'?'cn':product==='zc'?'zn':'xn';
-const doneField=product==='cz'?'cd':product==='zc'?'zd':'xd';
-const needCMs=cms.filter(c=>c&&c[needField]);
-const doneCMs=needCMs.filter(c=>c[doneField]);
-const undoneCMs=needCMs.filter(c=>!c[doneField]);
-const title=targetTeam?targetTeam.replace('上海','').replace(targetBranch.replace('上海',''),''):targetBranch.replace('上海','');
-document.getElementById('modalTitle').textContent=PN[product]+' · '+title;
-let body='';
-if(undoneCMs.length>0){
-body+='<div class="cm-section"><h4 style="color:var(--red)">❌ 未破冰 · '+undoneCMs.length+'人</h4><ul class="cm-list">';
-undoneCMs.forEach(c=>{body+='<li class="cm-item"><div><div class="cm-name">'+c.n+'</div><div class="cm-info">到岗 '+c.m+' 月'+(c.q?' · '+c.q:'')+'</div></div><div style="color:var(--red);font-weight:600;font-size:12px">未破冰</div></li>';});
-body+='</ul></div>';
+function populateBranchSelect() {
+  if (!DATA || !DATA.all_branches) return;
+  const sel = document.getElementById('branchSelect');
+  sel.innerHTML = '<option value="">选择支行</option>' +
+    DATA.all_branches.map(b => `<option value="${b}">${b}</option>`).join('');
 }
-if(doneCMs.length>0){
-body+='<div class="cm-section"><h4 style="color:var(--green)">✅ 已破冰 · '+doneCMs.length+'人</h4><ul class="cm-list">';
-doneCMs.forEach(c=>{body+='<li class="cm-item"><div><div class="cm-name">'+c.n+'</div><div class="cm-info">到岗 '+c.m+' 月'+(c.q?' · '+c.q:'')+'</div></div><div style="color:var(--green);font-weight:600;font-size:12px">已破冰</div></li>';});
-body+='</ul></div>';
+
+function onBranchChange() {
+  currentBranch = document.getElementById('branchSelect').value;
+  if (currentRole === 'team') {
+    populateTeamSelect();
+  }
+  renderCurrentView();
 }
-if(undoneCMs.length===0&&doneCMs.length===0){body='<div style="text-align:center;padding:20px;color:var(--text2)">暂无需要破冰的客户经理</div>';}
-document.getElementById('modalBody').innerHTML=body;
-document.getElementById('modalOverlay').classList.add('show');
-}catch(e){alert('加载失败: '+e.message);}
+
+function populateTeamSelect() {
+  const sel = document.getElementById('teamSelect');
+  if (!currentBranch || !DATA || !DATA.teams) {
+    sel.innerHTML = '<option value="">选择团队</option>';
+    return;
+  }
+  const teams = [...new Set(DATA.teams.filter(t => t.branch === currentBranch).map(t => t.team))];
+  sel.innerHTML = '<option value="">选择团队</option>' +
+    teams.map(t => `<option value="${t}">${t}</option>`).join('');
 }
-function closeModal(e){if(e&&e.target!==document.getElementById('modalOverlay'))return;document.getElementById('modalOverlay').classList.remove('show');}
-loadData();
+
+function onTeamChange() {
+  currentTeam = document.getElementById('teamSelect').value;
+  renderCurrentView();
+}
+
+function switchQuarter(q) {
+  currentQuarter = q;
+  document.querySelectorAll('.quarter-toggle button').forEach(b => b.classList.toggle('active', b.dataset.q === q));
+  renderCurrentView();
+}
+
+// ============ Render Helpers ============
+function getProductData(product, branchData) {
+  const p = PRODUCTS[product];
+  const f = p.fields;
+  if (product === 'cz') {
+    return {
+      value: branchData.value || 0,
+      start: branchData.start || 0,
+      q3: branchData.q3 || 0,
+      q4: branchData.q4 || 0,
+      net: branchData.net || 0,
+      net_target: branchData.net_q4_target || 0,
+      ice_need: branchData.ice?.need || 0,
+      ice_done: branchData.ice?.done || 0,
+      ice_rate: branchData.ice?.rate || '0%'
+    };
+  }
+  // For team-level data (zc, xgj, zy, zgj)
+  return null; // handled differently
+}
+
+function getTeamProductData(product, teamData) {
+  const p = PRODUCTS[product];
+  if (product === 'cz') {
+    return {
+      value: teamData.cz_value || 0,
+      ice_need: teamData.cz_ice?.need || 0,
+      ice_done: teamData.cz_ice?.done || 0,
+      ice_rate: teamData.cz_ice?.rate || '0%'
+    };
+  } else if (product === 'zc') {
+    return {
+      value: teamData.zc_value || 0,
+      ice_need: teamData.zc_ice?.need || 0,
+      ice_done: teamData.zc_ice?.done || 0,
+      ice_rate: teamData.zc_ice?.rate || '0%'
+    };
+  } else if (product === 'xgj') {
+    return {
+      value: teamData.xgj_value || 0,
+      ice_need: teamData.xgj_ice?.need || 0,
+      ice_done: teamData.xgj_ice?.done || 0,
+      ice_rate: teamData.xgj_ice?.rate || '0%'
+    };
+  }
+  return { value: teamData[p.fields.value] || 0, ice_need: 0, ice_done: 0, ice_rate: '-' };
+}
+
+function parseRate(rateStr) {
+  if (!rateStr || rateStr === '-') return 0;
+  return parseFloat(String(rateStr).replace('%', '')) || 0;
+}
+
+function rateClass(rate) {
+  if (rate >= 80) return 'text-green';
+  if (rate >= 50) return 'text-blue';
+  return 'text-orange';
+}
+
+function rateColor(rate) {
+  if (rate >= 80) return 'var(--green)';
+  if (rate >= 50) return 'var(--blue)';
+  return 'var(--orange)';
+}
+
+function formatNetRate(net, target) {
+  if (!target || target === 0) return { text: '-', cls: 'text-gray', value: 0 };
+  const rate = (net / target * 100);
+  if (rate < 0) return { text: '未达标', cls: 'text-gray', value: rate };
+  return { text: rate.toFixed(1) + '%', cls: rateClass(rate), value: rate };
+}
+
+function progressBar(rate) {
+  const w = Math.max(0, Math.min(100, rate));
+  const c = rateColor(rate);
+  return `<div class="progress-bar"><div class="progress-fill" style="width:${w}%;background:${c}"></div></div>`;
+}
+
+// ============ Home Render ============
+function renderHome() {
+  if (!DATA) return;
+  const grid = document.getElementById('homeGrid');
+  const products = ['cz', 'zc', 'xgj', 'zy', 'zgj'];
+  let html = '';
+
+  products.forEach(pk => {
+    const p = PRODUCTS[pk];
+    let totalValue = 0, totalTarget = 0, totalNet = 0, totalIceNeed = 0, totalIceDone = 0;
+
+    if (pk === 'cz') {
+      const branches = getFilteredBranchData();
+      branches.forEach(b => {
+        totalValue += (b.value || 0);
+        totalTarget += (b.net_q4_target || 0);
+        totalNet += (b.net || 0);
+        totalIceNeed += (b.ice?.need || 0);
+        totalIceDone += (b.ice?.done || 0);
+      });
+    } else {
+      const teams = getFilteredTeamData();
+      teams.forEach(t => {
+        const td = getTeamProductData(pk, t);
+        totalValue += td.value;
+        totalIceNeed += td.ice_need;
+        totalIceDone += td.ice_done;
+      });
+    }
+
+    const netRate = totalTarget > 0 ? (totalNet / totalTarget * 100) : 0;
+    const iceRate = totalIceNeed > 0 ? (totalIceDone / totalIceNeed * 100) : 0;
+    const netDisplay = netRate < 0 ? '未达标' : netRate.toFixed(1) + '%';
+    const netCls = netRate < 0 ? 'text-gray' : rateClass(netRate);
+    const iceDisplay = totalIceNeed > 0 ? iceRate.toFixed(1) + '%' : '-';
+    const iceCls = rateClass(iceRate);
+
+    // Badge color
+    let badgeBg = 'var(--light-green)', badgeColor = 'var(--green)';
+    if (netRate < 50) { badgeBg = '#fef3c7'; badgeColor = 'var(--orange)'; }
+    if (netRate < 0) { badgeBg = 'var(--light-red)'; badgeColor = 'var(--red)'; }
+
+    html += `
+      <div class="product-card" onclick="openProduct('${pk}')">
+        <div class="card-header">
+          <span class="card-title">${p.icon} ${p.name}</span>
+          <span class="card-badge" style="background:${badgeBg};color:${badgeColor}">${netDisplay}</span>
+        </div>
+        <div class="card-metrics">
+          <div class="card-metric">
+            <div class="metric-value">${totalValue}</div>
+            <div class="metric-label">有价值客户</div>
+          </div>
+          <div class="card-metric">
+            <div class="metric-value">${totalTarget || '-'}</div>
+            <div class="metric-label">Q4目标</div>
+          </div>
+          <div class="card-metric">
+            <div class="metric-value ${netCls}">${netDisplay}</div>
+            <div class="metric-label">净增完成率</div>
+          </div>
+          <div class="card-metric">
+            <div class="metric-value ${iceCls}">${iceDisplay}</div>
+            <div class="metric-label">破冰率</div>
+          </div>
+        </div>
+        ${progressBar(netRate > 0 ? netRate : 0)}
+      </div>`;
+  });
+
+  grid.innerHTML = html;
+}
+
+function getFilteredBranchData() {
+  if (!DATA || !DATA.branches) return [];
+  if (currentRole === 'branch_all') return DATA.branches;
+  if (currentBranch) return DATA.branches.filter(b => b.name === currentBranch || b.branch === currentBranch);
+  return DATA.branches;
+}
+
+function getFilteredTeamData() {
+  if (!DATA || !DATA.teams) return [];
+  let teams = DATA.teams;
+  if (currentRole === 'sub_branch' && currentBranch) {
+    teams = teams.filter(t => t.branch === currentBranch);
+  } else if (currentRole === 'team' && currentBranch) {
+    teams = teams.filter(t => t.branch === currentBranch);
+    if (currentTeam) teams = teams.filter(t => t.team === currentTeam);
+  }
+  return teams;
+}
+
+// ============ Detail View ============
+function openProduct(pk) {
+  currentProduct = pk;
+  currentView = 'detail';
+  document.getElementById('homeView').classList.add('hidden');
+  document.getElementById('detailView').classList.remove('hidden');
+  document.getElementById('header').classList.add('has-back');
+  document.getElementById('headerTitle').textContent = PRODUCTS[pk].name;
+  updateNavActive(pk);
+  renderDetail();
+}
+
+function goBack() {
+  if (currentView === 'detail') {
+    currentView = 'home';
+    document.getElementById('detailView').classList.add('hidden');
+    document.getElementById('homeView').classList.remove('hidden');
+    document.getElementById('header').classList.remove('has-back');
+    document.getElementById('headerTitle').textContent = '融智产品通报';
+    renderHome();
+  }
+}
+
+function navTo(pk) {
+  currentProduct = pk;
+  if (currentView === 'home') {
+    openProduct(pk);
+  } else {
+    document.getElementById('headerTitle').textContent = PRODUCTS[pk].name;
+    updateNavActive(pk);
+    renderDetail();
+  }
+}
+
+function updateNavActive(pk) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.product === pk));
+}
+
+function renderDetail() {
+  renderKPI();
+  renderRankTable();
+  renderBranchTable();
+}
+
+function renderCurrentView() {
+  if (currentView === 'home') renderHome();
+  else renderDetail();
+}
+
+// ============ KPI ============
+function renderKPI() {
+  const section = document.getElementById('kpiSection');
+  const pk = currentProduct;
+  let totalValue = 0, totalTarget = 0, totalNet = 0, totalIceNeed = 0, totalIceDone = 0;
+
+  if (pk === 'cz') {
+    const branches = getFilteredBranchData();
+    branches.forEach(b => {
+      totalValue += (b.value || 0);
+      totalTarget += (b.net_q4_target || 0);
+      totalNet += (b.net || 0);
+      totalIceNeed += (b.ice?.need || 0);
+      totalIceDone += (b.ice?.done || 0);
+    });
+  } else {
+    const teams = getFilteredTeamData();
+    teams.forEach(t => {
+      const td = getTeamProductData(pk, t);
+      totalValue += td.value;
+      totalIceNeed += td.ice_need;
+      totalIceDone += td.ice_done;
+    });
+  }
+
+  const netRate = totalTarget > 0 ? (totalNet / totalTarget * 100) : 0;
+  const iceRate = totalIceNeed > 0 ? (totalIceDone / totalIceNeed * 100) : 0;
+  const netDisplay = netRate < 0 ? '未达标' : netRate.toFixed(1) + '%';
+  const netCls = netRate < 0 ? 'text-gray' : rateClass(netRate);
+  const iceDisplay = totalIceNeed > 0 ? iceRate.toFixed(1) + '%' : '-';
+
+  section.innerHTML = `
+    <div class="kpi-box">
+      <div class="kpi-value">${totalValue}</div>
+      <div class="kpi-label">有价值客户</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kpi-value">${totalTarget || '-'}</div>
+      <div class="kpi-label">Q4目标</div>
+    </div>
+    <div class="kpi-box">
+      <div class="kpi-value ${netCls}">${netDisplay}</div>
+      <div class="kpi-label">净增完成率</div>
+      ${progressBar(netRate > 0 ? netRate : 0)}
+    </div>
+    <div class="kpi-box">
+      <div class="kpi-value ${rateClass(iceRate)}">${iceDisplay}</div>
+      <div class="kpi-label">破冰率</div>
+      ${progressBar(iceRate)}
+    </div>`;
+}
+
+// ============ Rank Table ============
+function renderRankTable() {
+  const wrap = document.getElementById('rankTableWrap');
+  const pk = currentProduct;
+  let rows = [];
+
+  if (pk === 'cz') {
+    const branches = DATA.branches || [];
+    branches.forEach(b => {
+      const net = b.net || 0;
+      const target = b.net_q4_target || 0;
+      const rate = target > 0 ? (net / target * 100) : 0;
+      const iceRate = b.ice?.rate ? parseRate(b.ice.rate) : 0;
+      rows.push({
+        name: b.name || b.branch || '',
+        value: b.value || 0,
+        net, target, rate, iceRate,
+        ice_need: b.ice?.need || 0,
+        ice_done: b.ice?.done || 0
+      });
+    });
+  } else {
+    // Group teams by branch
+    const branchMap = {};
+    const teams = getFilteredTeamData();
+    teams.forEach(t => {
+      const branch = t.branch;
+      if (!branchMap[branch]) {
+        branchMap[branch] = { name: branch, value: 0, ice_need: 0, ice_done: 0 };
+      }
+      const td = getTeamProductData(pk, t);
+      branchMap[branch].value += td.value;
+      branchMap[branch].ice_need += td.ice_need;
+      branchMap[branch].ice_done += td.ice_done;
+    });
+    Object.values(branchMap).forEach(b => {
+      b.iceRate = b.ice_need > 0 ? (b.ice_done / b.ice_need * 100) : 0;
+      b.rate = 0; // non-cz products don't have net/target at branch level in teams
+      b.net = 0; b.target = 0;
+      rows.push(b);
+    });
+    // Sort by value descending for non-cz
+    rows.sort((a, b) => b.value - a.value);
+  }
+
+  // Sort by rate descending (for cz)
+  if (pk === 'cz') {
+    rows.sort((a, b) => b.rate - a.rate);
+  }
+
+  const total = rows.length;
+  let html = '<table class="data-table"><thead><tr>';
+  html += '<th>排名</th><th>支行</th><th>有价值数</th>';
+  if (pk === 'cz') html += '<th>净增/目标</th><th>完成率</th>';
+  html += '<th>破冰率</th>';
+  html += '</tr></thead><tbody>';
+
+  rows.forEach((r, i) => {
+    const rank = i + 1;
+    let rankBadge = '';
+    let rowStyle = '';
+    if (rank <= 3) {
+      rankBadge = `<span class="rank-badge rank-${rank}">${rank}</span>`;
+      rowStyle = 'style="background:#f0fdf4"';
+    } else if (rank > total - 3 && total > 6) {
+      rankBadge = `<span class="rank-badge rank-bottom">${rank}</span>`;
+      rowStyle = 'style="background:#fef2f2"';
+    } else {
+      rankBadge = `<span style="color:var(--gray);font-weight:600">${rank}</span>`;
+    }
+
+    let rateDisplay = '';
+    if (pk === 'cz') {
+      const rd = formatNetRate(r.net, r.target);
+      rateDisplay = `<td class="${rd.cls}">${rd.text}</td>`;
+      html += `<tr ${rowStyle}><td>${rankBadge}</td><td style="font-weight:600">${r.name}</td><td>${r.value}</td><td>${r.net}/${r.target}</td>${rateDisplay}`;
+    } else {
+      html += `<tr ${rowStyle}><td>${rankBadge}</td><td style="font-weight:600">${r.name}</td><td>${r.value}</td>`;
+    }
+
+    const iceR = pk === 'cz' ? r.iceRate : r.iceRate;
+    const iceText = r.ice_need > 0 ? `${r.ice_done}/${r.ice_need}` : '-';
+    const iceRateText = iceR > 0 ? iceR.toFixed(1) + '%' : '-';
+    html += `<td class="${rateClass(iceR)}" style="cursor:pointer" onclick="showIceModal('${r.name}',${r.ice_done},${r.ice_need},'${pk}')">${iceRateText} <span style="font-size:10px;color:var(--gray)">👁</span></td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+// ============ Branch Detail Table (with expand) ============
+function renderBranchTable() {
+  const wrap = document.getElementById('branchTableWrap');
+  const pk = currentProduct;
+  let branchRows = [];
+
+  if (pk === 'cz') {
+    const branches = getFilteredBranchData();
+    branches.forEach(b => {
+      const net = b.net || 0;
+      const target = b.net_q4_target || 0;
+      const rate = target > 0 ? (net / target * 100) : 0;
+      const iceRate = b.ice?.rate ? parseRate(b.ice.rate) : 0;
+      branchRows.push({
+        name: b.name || b.branch || '',
+        value: b.value || 0,
+        net, target, rate, iceRate,
+        ice_need: b.ice?.need || 0,
+        ice_done: b.ice?.done || 0
+      });
+    });
+  } else {
+    const branchMap = {};
+    const teams = getFilteredTeamData();
+    teams.forEach(t => {
+      const branch = t.branch;
+      if (!branchMap[branch]) {
+        branchMap[branch] = { name: branch, value: 0, ice_need: 0, ice_done: 0 };
+      }
+      const td = getTeamProductData(pk, t);
+      branchMap[branch].value += td.value;
+      branchMap[branch].ice_need += td.ice_need;
+      branchMap[branch].ice_done += td.ice_done;
+    });
+    Object.values(branchMap).forEach(b => {
+      b.iceRate = b.ice_need > 0 ? (b.ice_done / b.ice_need * 100) : 0;
+      b.rate = 0; b.net = 0; b.target = 0;
+      branchRows.push(b);
+    });
+  }
+
+  let html = '<table class="data-table"><thead><tr>';
+  html += '<th style="width:5%"></th><th>支行</th><th>当前</th>';
+  if (pk === 'cz') html += '<th>净增/目标</th><th>完成率</th>';
+  html += '<th>破冰率</th>';
+  html += '</tr></thead><tbody>';
+
+  branchRows.forEach((br, idx) => {
+    const rowId = `br_${idx}`;
+    const rd = pk === 'cz' ? formatNetRate(br.net, br.target) : { text: '-', cls: 'text-gray' };
+    const iceR = br.iceRate || 0;
+    const iceRateText = iceR > 0 ? iceR.toFixed(1) + '%' : '-';
+
+    html += `<tr class="clickable" onclick="toggleBranch('${rowId}','${br.name}','${pk}')">`;
+    html += `<td><span class="expand-icon" id="icon_${rowId}">▶</span></td>`;
+    html += `<td style="font-weight:600">${br.name}</td>`;
+    html += `<td>${br.value}</td>`;
+    if (pk === 'cz') {
+      html += `<td>${br.net}/${br.target}</td>`;
+      html += `<td class="${rd.cls}">${rd.text}</td>`;
+    }
+    html += `<td class="${rateClass(iceR)}" style="cursor:pointer" onclick="event.stopPropagation();showIceModal('${br.name}',${br.ice_done},${br.ice_need},'${pk}')">${iceRateText}</td>`;
+    html += '</tr>';
+
+    // Expandable team rows container
+    html += `<tr class="expand-row" id="${rowId}"><td colspan="${pk === 'cz' ? 6 : 4}">`;
+    html += `<div class="expand-content" id="content_${rowId}"><div class="loading" style="padding:12px;font-size:12px">加载中...</div></div>`;
+    html += '</td></tr>';
+  });
+
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+// ============ Toggle Expand ============
+async function toggleBranch(rowId, branchName, pk) {
+  const row = document.getElementById(rowId);
+  const icon = document.getElementById('icon_' + rowId);
+  const content = document.getElementById('content_' + rowId);
+
+  if (row.classList.contains('open')) {
+    row.classList.remove('open');
+    icon.classList.remove('open');
+    return;
+  }
+
+  row.classList.add('open');
+  icon.classList.add('open');
+
+  // Load teams for this branch
+  const teams = (DATA.teams || []).filter(t => t.branch === branchName);
+  if (teams.length === 0) {
+    content.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--gray)">暂无团队数据</div>';
+    return;
+  }
+
+  let html = '<table class="expand-table"><thead><tr>';
+  html += '<th style="width:5%"></th><th>团队</th><th>有价值数</th><th>破冰率</th>';
+  html += '</tr></thead><tbody>';
+
+  teams.forEach((t, ti) => {
+    const tid = `${rowId}_t${ti}`;
+    const td = getTeamProductData(pk, t);
+    const iceRate = td.ice_rate !== '-' ? parseRate(td.ice_rate) : (td.ice_need > 0 ? (td.ice_done / td.ice_need * 100) : 0);
+    const iceRateText = iceRate > 0 ? iceRate.toFixed(1) + '%' : '-';
+
+    html += `<tr class="clickable" onclick="toggleTeam('${tid}','${branchName}','${t.team}','${pk}')">`;
+    html += `<td><span class="expand-icon" id="icon_${tid}">▶</span></td>`;
+    html += `<td style="font-weight:500">${t.team}</td>`;
+    html += `<td>${td.value}</td>`;
+    html += `<td class="${rateClass(iceRate)}" onclick="event.stopPropagation();showIceModal('${t.team}',${td.ice_done},${td.ice_need},'${pk}')">${iceRateText}</td>`;
+    html += '</tr>';
+
+    // Expandable CM rows
+    html += `<tr class="expand-row" id="${tid}"><td colspan="4">`;
+    html += `<div id="content_${tid}"><div class="loading" style="padding:8px;font-size:12px">加载中...</div></div>`;
+    html += '</td></tr>';
+  });
+
+  html += '</tbody></table>';
+  content.innerHTML = html;
+}
+
+async function toggleTeam(tid, branchName, teamName, pk) {
+  const row = document.getElementById(tid);
+  const icon = document.getElementById('icon_' + tid);
+  const content = document.getElementById('content_' + tid);
+
+  if (row.classList.contains('open')) {
+    row.classList.remove('open');
+    icon.classList.remove('open');
+    return;
+  }
+
+  row.classList.add('open');
+  icon.classList.add('open');
+
+  // Load CM data
+  const cms = await loadCM();
+  const teamCMs = cms.filter(c => c.b === branchName && c.t === teamName);
+
+  if (teamCMs.length === 0) {
+    content.innerHTML = '<div style="padding:8px;font-size:12px;color:var(--gray)">暂无客户经理数据</div>';
+    return;
+  }
+
+  const cmf = CM_FIELDS[pk] || CM_FIELDS.cz;
+  let html = '<div class="cm-list">';
+  teamCMs.forEach(cm => {
+    const needVal = cm[cmf.need] || 0;
+    const doneVal = cm[cmf.done] || 0;
+    const isDone = doneVal > 0 || doneVal === true || doneVal === '是';
+
+    html += '<div class="cm-item">';
+    html += `<span class="cm-name">${cm.n || ''}</span>`;
+    html += `<span class="cm-info">${cm.m || 0}月 · ${cm.q || '-'}</span>`;
+    html += '<span class="cm-icons">';
+    html += `<span class="cm-icon ${isDone ? 'done' : 'need'}">${isDone ? '✓' : '✗'} 破冰</span>`;
+    html += '</span></div>';
+  });
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+// ============ Ice Modal ============
+function showIceModal(name, done, need, pk) {
+  document.getElementById('iceModalTitle').textContent = `${name} - 破冰明细`;
+  const body = document.getElementById('iceModalBody');
+  const rate = need > 0 ? (done / need * 100).toFixed(1) + '%' : '-';
+
+  body.innerHTML = `
+    <div style="display:flex;gap:16px;margin-bottom:16px">
+      <div style="text-align:center;flex:1">
+        <div style="font-size:24px;font-weight:700">${done}</div>
+        <div style="font-size:12px;color:var(--gray)">已破冰</div>
+      </div>
+      <div style="text-align:center;flex:1">
+        <div style="font-size:24px;font-weight:700">${need}</div>
+        <div style="font-size:12px;color:var(--gray)">应破冰</div>
+      </div>
+      <div style="text-align:center;flex:1">
+        <div style="font-size:24px;font-weight:700" class="${rateClass(parseRate(rate))}">${rate}</div>
+        <div style="font-size:12px;color:var(--gray)">破冰率</div>
+      </div>
+    </div>
+    ${progressBar(parseRate(rate))}
+  `;
+
+  document.getElementById('iceModal').classList.add('open');
+}
+
+function closeIceModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('iceModal').classList.remove('open');
+}
+
+// ============ Terminology ============
+function toggleTerminology() {
+  const body = document.getElementById('termBody');
+  const icon = document.getElementById('termIcon');
+  body.classList.toggle('open');
+  icon.classList.toggle('open');
+}
+
+// ============ Init ============
+document.addEventListener('DOMContentLoaded', loadData);
 </script>
 </body>
 </html>
