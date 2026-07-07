@@ -246,7 +246,7 @@ function anonName(n){
 
 var DATA={};
 var DATA_READY=false;
-async function initData(){
+async async function initData(){
 try{
 var r=await fetch('data.json?t='+Date.now());
 DATA=await r.json();
