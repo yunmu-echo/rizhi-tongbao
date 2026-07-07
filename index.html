@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>融智产品通报</title>
 <style>
 :root{--bg:#f5f6fa;--card:#fff;--text:#1a1a2e;--text2:#8e8e93;--blue:#007AFF;--green:#34C759;--orange:#FF9500;--red:#FF3B30;--purple:#AF52DE;--teal:#5AC8FA;--radius:14px;--gap:12px}
@@ -20,6 +20,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 .tabs{display:flex;gap:6px;margin-bottom:var(--gap);overflow-x:auto;padding:2px}
 .tab{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;color:var(--text2);background:#fff;white-space:nowrap;cursor:pointer;transition:all .2s;flex-shrink:0;border:1.5px solid transparent}
 .tab.active{color:var(--blue);border-color:var(--blue);background:rgba(0,122,255,.08)}
+.q-toggle{display:flex;gap:0;margin-bottom:var(--gap);background:#fff;border-radius:10px;padding:3px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.q-btn{flex:1;padding:8px;text-align:center;border-radius:8px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s}
+.q-btn.active{background:var(--blue);color:#fff}
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-bottom:var(--gap)}
 .kpi{background:var(--card);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .kpi .icon{font-size:28px;margin-bottom:8px}.kpi .label{font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
@@ -37,6 +40,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 .mtable th{text-align:left;padding:8px 6px;border-bottom:2px solid #e8e8e8;color:var(--text2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;position:sticky;top:0;background:#fff}
 .mtable td{padding:10px 6px;border-bottom:1px solid #f5f5f5;white-space:nowrap}
 .mtable tr:active{background:#f0f5ff}
+.mtable tr.rank-top{background:rgba(52,199,89,.08)}.mtable tr.rank-top td:first-child{border-left:3px solid var(--green)}
+.mtable tr.rank-bottom{background:rgba(255,59,48,.06)}.mtable tr.rank-bottom td:first-child{border-left:3px solid var(--red)}
+.mtable tr.rank-mine{background:rgba(0,122,255,.08)}.mtable tr.rank-mine td:first-child{border-left:3px solid var(--blue)}
+.mtable tr.rank-near{background:rgba(0,122,255,.04)}
+.mtable tr.rank-ellipsis{background:transparent}.mtable tr.rank-ellipsis td{text-align:center;color:var(--text2);font-size:12px;padding:6px;border-bottom:1px dashed #e0e0e0}
 .badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700}
 .badge.clickable{cursor:pointer;transition:all .2s}.badge.clickable:active{transform:scale(0.95);opacity:0.8}
 .b-g{background:#d4edda;color:#155724}.b-y{background:#fff3cd;color:#856404}.b-r{background:#f8d7da;color:#721c24}.b-b{background:#d1ecf1;color:#0c5460}
@@ -45,18 +53,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 .nav-item.active{color:var(--blue);background:rgba(0,122,255,.08)}.nav-item .nav-icon{font-size:20px}
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:flex-end}
 .modal-overlay.show{display:flex}
-.modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:70vh;overflow-y:auto;padding:20px 16px 30px}
+.modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px 16px 30px}
 .modal h3{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
 .modal .close-btn{font-size:24px;cursor:pointer;color:var(--text2);padding:4px 8px}
+.modal .cm-section{margin-bottom:16px}
+.modal .cm-section h4{font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .modal .cm-list{list-style:none}
 .modal .cm-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0}
 .modal .cm-item:last-child{border:none}
 .modal .cm-name{font-weight:600;font-size:14px}
 .modal .cm-info{font-size:12px;color:var(--text2)}
-.modal .cm-status{font-size:12px;font-weight:600}
-.modal .cm-status.done{color:var(--green)}.modal .cm-status.undone{color:var(--red)}
 ::-webkit-scrollbar{display:none}*{scrollbar-width:none}
-@media print{.bottom-nav,.header,.filter-row,.tabs{display:none}body{padding:0}}
+@media print{.bottom-nav,.header,.filter-row,.tabs,.q-toggle{display:none}body{padding:0}}
 </style>
 </head>
 <body>
@@ -82,11 +90,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 <div class="tab" onclick="setTab('zy')" data-tab="zy">智园</div>
 <div class="tab" onclick="setTab('zgj')" data-tab="zgj">住管家</div>
 </div>
+<div class="q-toggle">
+<div class="q-btn active" onclick="setQuarter('q4')" data-q="q4">Q4 年度目标</div>
+<div class="q-btn" onclick="setQuarter('q3')" data-q="q3">Q3 季度目标</div>
+</div>
 <div id="content"></div>
 </div>
 <div class="bottom-nav">
 <div class="nav-item active" onclick="navTo('summary')" data-nav="summary"><div class="nav-icon">📈</div>总览</div>
-<div class="nav-item" onclick="navTo('kpi')" data-nav="kpi"><div class="nav-icon">📊</div>指标</div>
+<div class="nav-item" onclick="navTo('ranking')" data-nav="ranking"><div class="nav-icon">🏆</div>排名</div>
 <div class="nav-item" onclick="navTo('table')" data-nav="table"><div class="nav-icon">📋</div>明细</div>
 </div>
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
@@ -95,188 +107,178 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 <div id="modalBody"></div>
 </div>
 </div>
-
 <script>
 const PN={cz:'鲤想财资',zc:'锦鲤资产池',xgj:'鲤想薪管家',zy:'鲤想智园',zgj:'鲤想住管家'};
 const PC={cz:'#007AFF',zc:'#5AC8FA',xgj:'#AF52DE',zy:'#FF9500',zgj:'#34C759'};
-let D=null,CM=null,role='fh',tab='all',branch='',team='',cmLoaded=false;
+let D=null,CM=null,role='fh',tab='all',quarter='q4',branch='',team='',cmLoaded=false;
 
-async function loadData(){
-try{
-const r=await fetch('data.json');
-D=await r.json();
-document.getElementById('dataDate').textContent=D.date||'';
-init();
-}catch(e){
-document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载失败，请刷新重试</div>';
-}
-}
+async function loadData(){try{const r=await fetch('data.json');D=await r.json();document.getElementById('dataDate').textContent=D.date||'';init();}catch(e){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载失败</div>';}}
+async function loadCM(){if(cmLoaded)return true;try{const r=await fetch('cm.json');CM=await r.json();cmLoaded=true;return true;}catch(e){return false;}}
+function init(){const bs=document.getElementById('selBranch');D.all_branches.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b.replace('上海','');bs.appendChild(o);});render();}
 
-async function loadCM(){
-if(cmLoaded)return true;
-try{
-const r=await fetch('cm.json');
-CM=await r.json();
-cmLoaded=true;
-return true;
-}catch(e){return false;}
-}
-
-function init(){
-const bs=document.getElementById('selBranch');
-if(D.all_branches){D.all_branches.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b.replace('上海','');bs.appendChild(o);});}
-render();
-}
-
-function setRole(r){
-role=r;
-document.querySelectorAll('.role-btn').forEach(b=>b.classList.toggle('active',b.dataset.role===r));
-const fr=document.getElementById('filterRow');
-const ts=document.getElementById('selTeam');
-fr.style.display=r==='fh'?'none':'flex';
-ts.style.display=r==='td'?'inline-block':'none';
-if(r==='fh'){branch='';team='';document.getElementById('selBranch').value='';ts.innerHTML='<option value="">选择团队</option>';}
-if(r==='zh'){team='';ts.innerHTML='<option value="">选择团队</option>';}
-render();
-}
-
+function setRole(r){role=r;document.querySelectorAll('.role-btn').forEach(b=>b.classList.toggle('active',b.dataset.role===r));document.getElementById('filterRow').style.display=r==='fh'?'none':'flex';document.getElementById('selTeam').style.display=r==='td'?'inline-block':'none';if(r==='fh'){branch='';team='';document.getElementById('selBranch').value='';document.getElementById('selTeam').innerHTML='<option value="">选择团队</option>';}if(r==='zh'){team='';document.getElementById('selTeam').innerHTML='<option value="">选择团队</option>';}render();}
 function setTab(t){tab=t;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));render();}
-
-function onBranchChange(){
-branch=document.getElementById('selBranch').value;
-team='';
-fillTeams();
-render();
-}
-
-function onTeamChange(){
-team=document.getElementById('selTeam').value;
-render();
-if(team)setTimeout(()=>navTo('table'),100);
-}
-
-function fillTeams(){
-const sel=document.getElementById('selTeam');
-sel.innerHTML='<option value="">选择团队</option>';
-if(!branch||!D.teams)return;
-const matched=D.teams.filter(t=>t.branch===branch);
-const ts=[...new Set(matched.map(t=>t.team))].sort();
-ts.forEach(t=>{
-const o=document.createElement('option');
-o.value=t;
-o.textContent=t.replace('上海','').replace(branch.replace('上海',''),'');
-sel.appendChild(o);
-});
-}
+function setQuarter(q){quarter=q;document.querySelectorAll('.q-btn').forEach(b=>b.classList.toggle('active',b.dataset.q===q));render();}
+function onBranchChange(){branch=document.getElementById('selBranch').value;team='';fillTeams();render();}
+function onTeamChange(){team=document.getElementById('selTeam').value;render();if(team)setTimeout(()=>navTo('table'),100);}
+function fillTeams(){const sel=document.getElementById('selTeam');sel.innerHTML='<option value="">选择团队</option>';if(!branch||!D.teams)return;const ts=[...new Set(D.teams.filter(t=>t.branch===branch).map(t=>t.team))].sort();ts.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t.replace('上海','').replace(branch.replace('上海',''),'');sel.appendChild(o);});}
 
 function getB(){if(!D||!D.branches)return[];let l=D.branches;if(role!=='fh'&&branch)l=l.filter(b=>b.branch===branch);return l;}
 function getT(){if(!D||!D.teams)return[];let l=D.teams;if(branch)l=l.filter(t=>t.branch===branch);if(team)l=l.filter(t=>t.team===team);return l;}
 function pct(v,t){return t>0?(v/t*100).toFixed(1):'0';}
 function barColor(r){return r>=80?'var(--green)':r>=50?'var(--blue)':'var(--orange)';}
-function badge(r,clickable,onclick){
-const c=r>=80?'b-g':r>=50?'b-y':'b-r';
-const cls='badge'+(clickable?' clickable':'');
-const oc=clickable?' onclick="'+onclick+'"':'';
-return'<span class="'+cls+'"'+oc+'>'+r+'%</span>';
+function badge(r){const c=r>=80?'b-g':r>=50?'b-y':'b-r';return'<span class="badge '+c+'">'+r+'%</span>';}
+function netRate(item,p){const d=item[p];if(!d)return 0;const net=d.value-(d.start||0);const tgt=quarter==='q3'?(d.q3||0)-(d.start||0):(d.q4||0)-(d.start||0);return tgt>0?Math.round(net/tgt*100):0;}
+
+// Ranking logic
+function buildRanking(items,p){
+const ranked=items.map(item=>{const r=netRate(item,p);return{...item,rate:r};}).sort((a,b)=>b.rate-a.rate);
+const result=[];
+const len=ranked.length;
+if(role==='fh'||!branch){
+// Show all, highlight top3 and bottom3
+ranked.forEach((item,i)=>{
+const cls=i<3?'rank-top':i>=len-3?'rank-bottom':'';
+result.push({type:'row',item,cls,rank:i+1});
+});
+}else{
+// Branch view: highlight mine ±3, top3, bottom3
+const myIdx=ranked.findIndex(r=>r.branch===branch);
+const showSet=new Set();
+for(let i=0;i<Math.min(3,len);i++)showSet.add(i);
+for(let i=Math.max(0,len-3);i<len;i++)showSet.add(i);
+if(myIdx>=0){for(let i=Math.max(0,myIdx-3);i<=Math.min(len-1,myIdx+3);i++)showSet.add(i);}
+const sorted=Array.from(showSet).sort((a,b)=>a-b);
+let last=-1;
+sorted.forEach(idx=>{
+if(last>=0&&idx-last>1)result.push({type:'ellipsis'});
+const cls=idx===myIdx?'rank-mine':idx<3?'rank-top':idx>=len-3?'rank-bottom':Math.abs(idx-myIdx)<=3?'rank-near':'';
+result.push({type:'row,item':ranked[idx],cls,rank:idx+1});
+last=idx;
+});
+}
+return result;
 }
 
 function render(){
 if(!D){document.getElementById('content').innerHTML='<div style="text-align:center;padding:60px;color:#8e8e93">加载中...</div>';return;}
 const fb=getB(),ft=getT();
 const prods=tab==='all'?['cz','zc','xgj','zy','zgj']:[tab];
+const qLabel=quarter==='q3'?'Q3':'Q4';
 let h='';
 
+// Summary
 h+='<div id="summary">';
 if(tab==='all'){
-const summaryData=(role==='td'&&team)?ft:fb;
-const summaryLabel=role==='td'&&team?team.replace('上海','').replace(branch.replace('上海',''),''):branch?branch.replace('上海',''):'全行';
-h+='<div class="summary"><h3>📋 '+summaryLabel+'总览</h3>';
+const sd=(role==='td'&&team)?ft:fb;
+const sl=role==='td'&&team?team.replace('上海','').replace(branch.replace('上海',''),''):branch?branch.replace('上海',''):'全行';
+h+='<div class="summary"><h3>📋 '+sl+'总览 · '+qLabel+'</h3>';
 ['cz','zc','xgj'].forEach(p=>{
-let v,t;
-if(role==='td'&&team){
-const td=ft.find(x=>x.team===team);
-v=td?(td[p+'_value']||0):0;
-t=0; // team data doesn't have target
-}else{
-v=fb.reduce((s,b)=>s+b[p].value,0);t=fb.reduce((s,b)=>s+b[p].target_year,0);
-}
-const vr=t>0?pct(v,t):'-';
-h+='<div class="summary-row"><div class="name" style="color:'+PC[p]+'">'+PN[p]+'</div><div class="nums"><span class="val">'+v+'</span>'+(t>0?'<span class="tgt">/ '+t+' 目标</span><span class="badge '+(Number(vr)>=100?'b-g':Number(vr)>=60?'b-b':'b-y')+'">'+vr+'%</span>':'')+'</div></div>';
+let v=0,tgt=0,start=0;
+if(role==='td'&&team){const td=ft.find(x=>x.team===team);if(td){v=td[p+'_value']||0;}}
+else{v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);start=fb.reduce((s,b)=>s+(b[p]?b[p].start||0:0),0);tgt=fb.reduce((s,b)=>s+(quarter==='q3'?(b[p]?b[p].q3||0:0):(b[p]?b[p].q4||0:0)),0);}
+const net=v-start;const netTgt=tgt-start;const nr=netTgt>0?(net/netTgt*100).toFixed(1):'-';
+const cls=Number(nr)>=100?'b-g':Number(nr)>=60?'b-b':'b-y';
+h+='<div class="summary-row"><div class="name" style="color:'+PC[p]+'">'+PN[p]+'</div><div class="nums"><span class="val">'+v+'</span><span class="tgt">净增 '+net+'/'+netTgt+'</span><span class="badge '+cls+'">'+nr+'%</span></div></div>';
 });
 ['zy','zgj'].forEach(p=>{
-let v;
-if(role==='td'&&team){
-const td=ft.find(x=>x.team===team);
-v=td?(td[p+'_value']||0):0;
-}else{
-v=fb.reduce((s,b)=>s+b[p].value,0);
-}
+const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
 h+='<div class="summary-row"><div class="name" style="color:'+PC[p]+'">'+PN[p]+'</div><div class="nums"><span class="val">'+v+'</span><span class="tgt">有价值</span></div></div>';
 });
-h+='</div>';}
+h+='</div>';
+}
 h+='</div>';
 
+// KPI
 h+='<div id="kpi"><div class="kpi-grid">';
 prods.forEach(p=>{
 if(['cz','zc','xgj'].includes(p)){
-const v=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_value']||b[p].value||0),0);const t=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_target_year']||b[p].target_year||0),0);
-const need=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_ice_need']||b[p].ice_need||0),0);const done=(role==='td'&&team?ft:fb).reduce((s,b)=>s+(b[p+'_ice_done']||b[p].ice_done||0),0);
-const vr=pct(v,t),ir=pct(done,need);
-h+='<div class="kpi"><div class="icon">'+(p==='cz'?'💰':p==='zc'?'🏦':'💳')+'</div><div class="label">'+PN[p]+' 有价值</div><div class="value" style="color:'+PC[p]+'">'+v+'</div><div class="meta">目标 '+t+' · 达成 '+vr+'%</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(Number(vr),100)+'%;background:'+barColor(Number(vr))+'"></div></div></div>';
+const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
+const start=fb.reduce((s,b)=>s+(b[p]?b[p].start||0:0),0);
+const tgt=fb.reduce((s,b)=>s+(quarter==='q3'?(b[p]?b[p].q3||0:0):(b[p]?b[p].q4||0:0)),0);
+const need=fb.reduce((s,b)=>s+(b[p]?b[p].ice?b[p].ice.need||0:0:0),0);
+const done=fb.reduce((s,b)=>s+(b[p]?b[p].ice?b[p].ice.done||0:0:0),0);
+const net=v-start;const netTgt=tgt-start;const nr=netTgt>0?(net/netTgt*100).toFixed(1):'0';
+const ir=need>0?(done/need*100).toFixed(1):'0';
+h+='<div class="kpi"><div class="icon">'+(p==='cz'?'💰':p==='zc'?'🏦':'💳')+'</div><div class="label">'+PN[p]+' 净增完成率</div><div class="value" style="color:'+PC[p]+'">'+nr+'%</div><div class="meta">净增 '+net+' / 目标 '+netTgt+'</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(Number(nr),100)+'%;background:'+barColor(Number(nr))+'"></div></div></div>';
 h+='<div class="kpi"><div class="icon">🔥</div><div class="label">'+PN[p]+' 破冰</div><div class="value" style="color:'+PC[p]+'">'+ir+'%</div><div class="meta">'+done+' / '+need+' 已破冰</div><div class="bar"><div class="bar-fill" style="width:'+Math.min(Number(ir),100)+'%;background:'+barColor(Number(ir))+'"></div></div></div>';
 }else{
-const v=fb.reduce((s,b)=>s+b[p].value,0);
+const v=fb.reduce((s,b)=>s+(b[p]?b[p].value:0),0);
 h+='<div class="kpi"><div class="icon">'+(p==='zy'?'🏗️':'🏠')+'</div><div class="label">'+PN[p]+' 有价值</div><div class="value" style="color:'+PC[p]+'">'+v+'</div><div class="meta">当前统计</div></div>';
 }});
 h+='</div></div>';
 
+// Ranking
+const rankProds=tab==='all'?['cz','zc','xgj']:[tab];
+h+='<div id="ranking">';
+rankProds.forEach(p=>{
+const items=role==='td'&&team?[]:fb;
+if(items.length===0)return;
+const ranked=items.map(item=>{const d=item[p];if(!d)return{...item,rate:0};const net=d.value-(d.start||0);const tgt=quarter==='q3'?(d.q3||0)-(d.start||0):(d.q4||0)-(d.start||0);return{...item,rate:tgt>0?Math.round(net/tgt*100):0};}).sort((a,b)=>b.rate-a.rate);
+const len=ranked.length;
+const myIdx=branch?ranked.findIndex(r=>r.branch===branch):-1;
+
+h+='<div class="table-card"><h3>🏆 '+PN[p]+' 排名 · '+qLabel+'净增完成率</h3>';
+h+='<table class="mtable"><thead><tr><th>#</th><th>支行</th><th>当前</th><th>净增</th><th>目标</th><th>完成率</th><th>破冰率</th></tr></thead><tbody>';
+
+const showSet=new Set();
+for(let i=0;i<Math.min(3,len);i++)showSet.add(i);
+for(let i=Math.max(0,len-3);i<len;i++)showSet.add(i);
+if(myIdx>=0){for(let i=Math.max(0,myIdx-3);i<=Math.min(len-1,myIdx+3);i++)showSet.add(i);}
+if(role==='fh'){for(let i=0;i<len;i++)showSet.add(i);}
+const sorted=Array.from(showSet).sort((a,b)=>a-b);
+let last=-1;
+sorted.forEach(idx=>{
+if(last>=0&&idx-last>1)h+='<tr class="rank-ellipsis"><td colspan="7">⋯ 省略 '+(idx-last-1)+' 个支行 ⋯</td></tr>';
+const item=ranked[idx];
+const d=item[p];const net=d.value-(d.start||0);const tgt=quarter==='q3'?(d.q3||0)-(d.start||0):(d.q4||0)-(d.start||0);
+const ir=item[p]&&item[p].ice?item[p].ice.rate||0:0;
+const cls=idx===myIdx?'rank-mine':idx<3?'rank-top':idx>=len-3?'rank-bottom':Math.abs(idx-myIdx)<=3?'rank-near':'';
+h+='<tr class="'+cls+'"><td>'+item.rank+'</td><td><strong>'+item.branch.replace('上海','').replace('支行','')+'</strong></td><td>'+d.value+'</td><td>'+net+'</td><td>'+tgt+'</td><td>'+badge(item.rate)+'</td><td>'+badge(ir)+'</td></tr>';
+last=idx;
+});
+h+='</tbody></table></div>';
+});
+h+='</div>';
+
+// Detail table
 h+='<div id="table">';
 if((role==='td'&&team)||(role==='zh'&&branch)){
-// Team or branch detail view - show ice-breaking detail for each product
 const targetTeam=role==='td'?team:null;
 const targetBranch=branch;
 h+='<div class="table-card"><h3>🏢 '+(targetTeam?targetTeam.replace('上海','').replace(targetBranch.replace('上海',''),''):targetBranch.replace('上海',''))+' · 破冰明细</h3>';
-
 ['cz','xgj','zc'].forEach(p=>{
 const label=PN[p];
-const needKey=p+'_ice_need';
-const doneKey=p+'_ice_done';
-const rateKey=p+'_ice_rate';
 let totalNeed=0,totalDone=0;
-if(targetTeam){
-const tdata=ft.find(t=>t.team===targetTeam);
-if(tdata){totalNeed=tdata[needKey]||0;totalDone=tdata[doneKey]||0;}
-}else{
-ft.forEach(t=>{totalNeed+=t[needKey]||0;totalDone+=t[doneKey]||0;});
-}
+if(targetTeam){const tdata=ft.find(t=>t.team===targetTeam);if(tdata&&tdata[p+'_ice']){totalNeed=tdata[p+'_ice'].need||0;totalDone=tdata[p+'_ice'].done||0;}}
+else{ft.forEach(t=>{if(t[p+'_ice']){totalNeed+=t[p+'_ice'].need||0;totalDone+=t[p+'_ice'].done||0;}});}
 if(totalNeed===0)return;
 const rate=pct(totalDone,totalNeed);
 const clickable='showIceDetail(\''+p+'\',\''+targetBranch+'\',\''+(targetTeam||'')+'\')';
 h+='<div style="margin-bottom:16px">';
 h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
 h+='<span style="font-weight:700;color:'+PC[p]+'">'+label+'</span>';
-h+='<span class="badge clickable '+(Number(rate)>=80?'b-g':Number(rate)>=50?'b-y':'b-r')+'" onclick="'+clickable+'">'+rate+' '+totalDone+'/'+totalNeed+'</span>';
+h+='<span class="badge clickable '+(Number(rate)>=80?'b-g':Number(rate)>=50?'b-y':'b-r')+'" onclick="'+clickable+'">'+rate+'% '+totalDone+'/'+totalNeed+'</span>';
 h+='</div>';
 h+='<div class="bar"><div class="bar-fill" style="width:'+Math.min(Number(rate),100)+'%;background:'+barColor(Number(rate))+'"></div></div>';
 h+='</div>';
 });
 h+='</div>';
 }else{
-// Branch list view
-h+='<div class="table-card"><h3>🏦 支行明细</h3>';
+h+='<div class="table-card"><h3>🏦 支行明细 · '+qLabel+'</h3>';
 h+='<div style="overflow-x:auto"><table class="mtable"><thead><tr><th>支行</th>';
-prods.forEach(p=>{if(['cz','zc','xgj'].includes(p))h+='<th>'+PN[p]+'</th><th>达成</th><th>破冰</th>';else h+='<th>'+PN[p]+'</th>';});
+prods.forEach(p=>{if(['cz','zc','xgj'].includes(p))h+='<th>'+PN[p]+'</th><th>净增</th><th>完成率</th><th>破冰</th>';else h+='<th>'+PN[p]+'</th>';});
 h+='</tr></thead><tbody>';
 fb.forEach(b=>{
-const bn=b.branch.replace('上海','').replace('支行','');
-h+='<tr><td><strong>'+bn+'</strong></td>';
+h+='<tr><td><strong>'+b.branch.replace('上海','').replace('支行','')+'</strong></td>';
 prods.forEach(p=>{
 if(['cz','zc','xgj'].includes(p)){
-const d=b[p];const vr=pct(d.value,d.target_year);
-const vcls=Number(vr)>=100?'b-g':Number(vr)>=60?'b-b':'b-y';
-const iceClick="showIceDetail('"+p+"','"+b.branch+"','')";
-h+='<td>'+d.value+'/'+d.target_year+'</td><td><span class="badge '+vcls+'">'+vr+'%</span></td><td><span class="badge clickable '+(d.ice_rate>=80?'b-g':d.ice_rate>=50?'b-y':'b-r')+'" onclick="'+iceClick+'">'+d.ice_rate+'%</span></td>';
-}else{h+='<td>'+b[p].value+'</td>';}
+const d=b[p];if(!d){h+='<td>-</td><td>-</td><td>-</td><td>-</td>';return;}
+const net=d.value-(d.start||0);const tgt=quarter==='q3'?(d.q3||0)-(d.start||0):(d.q4||0)-(d.start||0);
+const nr=tgt>0?Math.round(net/tgt*100):0;
+const ir=d.ice?d.ice.rate||0:0;
+h+='<td>'+d.value+'</td><td>'+net+'/'+tgt+'</td><td>'+badge(nr)+'</td><td>'+badge(ir)+'</td>';
+}else{h+='<td>'+(b[p]?b[p].value:0)+'</td>';}
 });
 h+='</tr>';
 });
@@ -289,70 +291,39 @@ document.getElementById('content').innerHTML=h;
 async function showIceDetail(product,targetBranch,targetTeam){
 try{
 const loaded=await loadCM();
-if(!loaded||!CM){
-alert('客户经理数据加载中，请稍后重试');
-return;
-}
-// Filter CMs
+if(!loaded||!CM){alert('数据加载中');return;}
 let cms=CM.filter(c=>c.b===targetBranch);
 if(targetTeam)cms=cms.filter(c=>c.t===targetTeam);
-
-// Determine which field to use
 const needField=product==='cz'?'cn':product==='zc'?'zn':'xn';
 const doneField=product==='cz'?'cd':product==='zc'?'zd':'xd';
-
-const needCMs=cms.filter(c=>c[needField]);
+const needCMs=cms.filter(c=>c&&c[needField]);
 const doneCMs=needCMs.filter(c=>c[doneField]);
 const undoneCMs=needCMs.filter(c=>!c[doneField]);
+const noNeedCMs=cms.filter(c=>!c[needField]);
 
 const title=targetTeam?targetTeam.replace('上海','').replace(targetBranch.replace('上海',''),''):targetBranch.replace('上海','');
-document.getElementById('modalTitle').textContent=PN[product]+' · '+title+' 破冰明细';
+document.getElementById('modalTitle').textContent=PN[product]+' · '+title;
 
-let body='<div style="margin-bottom:16px">';
-body+='<div style="display:flex;gap:16px;font-size:13px">';
-body+='<span>需破冰: <strong>'+needCMs.length+'</strong></span>';
-body+='<span style="color:var(--green)">已完成: <strong>'+doneCMs.length+'</strong></span>';
-body+='<span style="color:var(--red)">未完成: <strong>'+undoneCMs.length+'</strong></span>';
-body+='</div></div>';
-
+let body='';
 if(undoneCMs.length>0){
-body+='<h4 style="font-size:13px;color:var(--red);margin-bottom:8px">❌ 未破冰（需关注）</h4>';
-body+='<ul class="cm-list">';
-undoneCMs.forEach(c=>{
-body+='<li class="cm-item"><div><div class="cm-name">'+c.n+'</div><div class="cm-info">到岗 '+c.m+' 月'+(c.q?' · '+c.q:'')+'</div></div><div class="cm-status undone">未破冰</div></li>';
-});
-body+='</ul>';
+body+='<div class="cm-section"><h4 style="color:var(--red)">❌ 未破冰（需关注）· '+undoneCMs.length+'人</h4><ul class="cm-list">';
+undoneCMs.forEach(c=>{body+='<li class="cm-item"><div><div class="cm-name">'+c.n+'</div><div class="cm-info">到岗 '+c.m+' 月'+(c.q?' · '+c.q:'')+'</div></div><div style="color:var(--red);font-weight:600;font-size:12px">未破冰</div></li>';});
+body+='</ul></div>';
 }
-
 if(doneCMs.length>0){
-body+='<h4 style="font-size:13px;color:var(--green);margin-top:16px;margin-bottom:8px">✅ 已破冰</h4>';
-body+='<ul class="cm-list">';
-doneCMs.forEach(c=>{
-body+='<li class="cm-item"><div><div class="cm-name">'+c.n+'</div><div class="cm-info">到岗 '+c.m+' 月'+(c.q?' · '+c.q:'')+'</div></div><div class="cm-status done">已破冰</div></li>';
-});
-body+='</ul>';
+body+='<div class="cm-section"><h4 style="color:var(--green)">✅ 已破冰 · '+doneCMs.length+'人</h4><ul class="cm-list">';
+doneCMs.forEach(c=>{body+='<li class="cm-item"><div><div class="cm-name">'+c.n+'</div><div class="cm-info">到岗 '+c.m+' 月'+(c.q?' · '+c.q:'')+'</div></div><div style="color:var(--green);font-weight:600;font-size:12px">已破冰</div></li>';});
+body+='</ul></div>';
 }
-
-if(needCMs.length===0){
+if(undoneCMs.length===0&&doneCMs.length===0){
 body='<div style="text-align:center;padding:20px;color:var(--text2)">暂无需要破冰的客户经理</div>';
 }
-
 document.getElementById('modalBody').innerHTML=body;
 document.getElementById('modalOverlay').classList.add('show');
 }catch(e){alert('加载失败: '+e.message);}
 }
-
-function closeModal(e){
-if(e&&e.target!==document.getElementById('modalOverlay'))return;
-document.getElementById('modalOverlay').classList.remove('show');
-}
-
-function navTo(id){
-const el=document.getElementById(id);
-if(el)el.scrollIntoView({behavior:'smooth'});
-document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===id));
-}
-
+function closeModal(e){if(e&&e.target!==document.getElementById('modalOverlay'))return;document.getElementById('modalOverlay').classList.remove('show');}
+function navTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===id));}
 loadData();
 </script>
 </body>
