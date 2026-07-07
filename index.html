@@ -267,7 +267,7 @@ function progressBar(rate) {
 }
 
 // ============ DATA LOADING ============
-async function loadData() {
+async async function loadData() {
   try {
     const resp = await fetch(`data.json?t=${Date.now()}`);
     DATA = await resp.json();
