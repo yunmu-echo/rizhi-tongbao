@@ -188,13 +188,29 @@ let h='';
 
 h+='<div id="summary">';
 if(tab==='all'){
-h+='<div class="summary"><h3>📋 '+(branch?branch.replace('上海',''):'全行')+'总览</h3>';
+const summaryData=(role==='td'&&team)?ft:fb;
+const summaryLabel=role==='td'&&team?team.replace('上海','').replace(branch.replace('上海',''),''):branch?branch.replace('上海',''):'全行';
+h+='<div class="summary"><h3>📋 '+summaryLabel+'总览</h3>';
 ['cz','zc','xgj'].forEach(p=>{
-const v=fb.reduce((s,b)=>s+b[p].value,0);const t=fb.reduce((s,b)=>s+b[p].target_year,0);const vr=pct(v,t);
-h+='<div class="summary-row"><div class="name" style="color:'+PC[p]+'">'+PN[p]+'</div><div class="nums"><span class="val">'+v+'</span><span class="tgt">/ '+t+' 目标</span><span class="badge '+(Number(vr)>=100?'b-g':Number(vr)>=60?'b-b':'b-y')+'">'+vr+'%</span></div></div>';
+let v,t;
+if(role==='td'&&team){
+const td=ft.find(x=>x.team===team);
+v=td?(td[p+'_value']||0):0;
+t=0; // team data doesn't have target
+}else{
+v=fb.reduce((s,b)=>s+b[p].value,0);t=fb.reduce((s,b)=>s+b[p].target_year,0);
+}
+const vr=t>0?pct(v,t):'-';
+h+='<div class="summary-row"><div class="name" style="color:'+PC[p]+'">'+PN[p]+'</div><div class="nums"><span class="val">'+v+'</span>'+(t>0?'<span class="tgt">/ '+t+' 目标</span><span class="badge '+(Number(vr)>=100?'b-g':Number(vr)>=60?'b-b':'b-y')+'">'+vr+'%</span>':'')+'</div></div>';
 });
 ['zy','zgj'].forEach(p=>{
-const v=fb.reduce((s,b)=>s+b[p].value,0);
+let v;
+if(role==='td'&&team){
+const td=ft.find(x=>x.team===team);
+v=td?(td[p+'_value']||0):0;
+}else{
+v=fb.reduce((s,b)=>s+b[p].value,0);
+}
 h+='<div class="summary-row"><div class="name" style="color:'+PC[p]+'">'+PN[p]+'</div><div class="nums"><span class="val">'+v+'</span><span class="tgt">有价值</span></div></div>';
 });
 h+='</div>';}
