@@ -495,7 +495,7 @@ function showDash(){
             ['财资','薪管家','资产池','智园','住管家'].forEach(function(p){
               var s=emp[p];
               if(s==='done')h+='<td class="ice-done">✅</td>';
-              else if(s==='eligible')h+='<td class="ice-wait">⏳</td>';
+              else if(s==='eligible'||s==='wait')h+='<td class="ice-wait">⏳</td>';
               else h+='<td class="ice-no">—</td>';
             });
             h+='</tr>';
