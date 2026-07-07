@@ -280,7 +280,7 @@ if(targetTeam)cms=cms.filter(c=>c.t===targetTeam);
 
 // Determine which field to use
 const needField=product==='cz'?'cn':product==='zc'?'zn':'xn';
-const doneField=product==='cd':product==='zc'?'zd':'xd';
+const doneField=product==='cz'?'cd':product==='zc'?'zd':'xd';
 
 const needCMs=cms.filter(c=>c[needField]);
 const doneCMs=needCMs.filter(c=>c[doneField]);
