@@ -214,7 +214,7 @@ h+='<div id="ranking">';
 rankProds.forEach(p=>{
 const items=role==='td'&&team?[]:fb;
 if(items.length===0)return;
-const ranked=items.map(item=>{const d=item[p];if(!d)return{...item,rate:0};const net=d.value-(d.start||0);const tgt=quarter==='q3'?(d.q3||0)-(d.start||0):(d.q4||0)-(d.start||0);return{...item,rate:tgt>0?Math.round(net/tgt*100):0};}).sort((a,b)=>b.rate-a.rate);
+const ranked=items.map(item=>{const d=item[p];if(!d)return{...item,rate:0};const net=d.value-(d.start||0);const tgt=quarter==='q3'?(d.q3||0)-(d.start||0):(d.q4||0)-(d.start||0);return{...item,rate:tgt>0?Math.round(net/tgt*100):0};}).sort((a,b)=>b.rate-a.rate).map((item,i)=>({...item,rank:i+1}));
 const len=ranked.length;
 const myIdx=branch?ranked.findIndex(r=>r.branch===branch):-1;
 
