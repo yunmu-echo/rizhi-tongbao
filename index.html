@@ -377,3 +377,54 @@ function switchQuarter(q) {
 }
 
 // ============ HOME
+function renderHome() {
+  if (!DATA) return;
+  const content = document.getElementById('content');
+  let html = '<div class="home-grid">';
+  
+  const products = ['cz', 'zc', 'xgj', 'zy', 'zgj'];
+  const icons = {cz: '💰', zc: '🏊', xgj: '💼', zy: '🏢', zgj: '🏠'};
+  const names = {cz: '鲤想财资', zc: '锦鲤资产池', xgj: '鲤想薪管家', zy: '鲤想智园', zgj: '鲤想住管家'};
+  const colors = {cz: '#007AFF', zc: '#5AC8FA', xgj: '#AF52DE', zy: '#FF9500', zgj: '#34C759'};
+  
+  products.forEach(p => {
+    const branches = DATA.branches;
+    let value = 0, target = 0, iceNeed = 0, iceDone = 0;
+    
+    if (['cz', 'zc', 'xgj'].includes(p)) {
+      value = branches.reduce((s, b) => s + (b[p] ? b[p].value : 0), 0);
+      target = branches.reduce((s, b) => s + (b[p] ? b[p].q4 : 0), 0);
+      iceNeed = branches.reduce((s, b) => s + (b[p] && b[p].ice ? b[p].ice.need : 0), 0);
+      iceDone = branches.reduce((s, b) => s + (b[p] && b[p].ice ? b[p].ice.done : 0), 0);
+    } else {
+      value = branches.reduce((s, b) => s + (b[p] ? b[p].value : 0), 0);
+    }
+    
+    const net = value - branches.reduce((s, b) => s + (b[p] ? b[p].start || 0 : 0), 0);
+    const netTarget = target - branches.reduce((s, b) => s + (b[p] ? b[p].start || 0 : 0), 0);
+    const netRate = netTarget > 0 ? Math.round(net / netTarget * 100) : 0;
+    const iceRate = iceNeed > 0 ? Math.round(iceDone / iceNeed * 100) : 0;
+    
+    html += `<div class="product-card" onclick="openProduct('${p}')">
+      <div class="card-header">
+        <div class="card-title">${icons[p]} ${names[p]}</div>
+        <div class="card-badge" style="background:${colors[p]}20;color:${colors[p]}">${value}</div>
+      </div>
+      <div class="card-metrics">
+        <div class="metric"><div class="metric-label">目标</div><div class="metric-value">${target}</div></div>
+        <div class="metric"><div class="metric-label">净增</div><div class="metric-value">${net}</div></div>
+        <div class="metric"><div class="metric-label">完成率</div><div class="metric-value ${netRate >= 100 ? 'text-green' : netRate >= 60 ? 'text-blue' : 'text-orange'}">${netRate}%</div></div>
+        <div class="metric"><div class="metric-label">破冰率</div><div class="metric-value ${iceRate >= 80 ? 'text-green' : iceRate >= 50 ? 'text-blue' : 'text-orange'}">${iceRate}%</div></div>
+      </div>
+    </div>`;
+  });
+  
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+// ============ INIT
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
+</body>
+</html>
