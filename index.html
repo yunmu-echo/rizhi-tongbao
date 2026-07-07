@@ -5,228 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>融智产品通报</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --green: #10b981; --blue: #3b82f6; --orange: #f59e0b; --red: #ef4444;
-  --gray: #9ca3af; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937;
-  --border: #e5e7eb; --light-green: #d1fae5; --light-red: #fee2e2;
-}
-body {
-  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5;
-  max-width: 500px; margin: 0 auto; min-height: 100vh; padding-bottom: 70px;
-}
-.header {
-  background: linear-gradient(135deg, #1e40af, #3b82f6); color: white;
-  padding: 16px 20px; position: sticky; top: 0; z-index: 100;
-}
-.header h1 { font-size: 18px; font-weight: 600; }
-.header .date { font-size: 12px; opacity: 0.9; margin-top: 4px; font-weight: 500; }
-.header .back-btn {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  background: rgba(255,255,255,0.2); border: none; color: white; width: 32px;
-  height: 32px; border-radius: 50%; font-size: 18px; cursor: pointer; display: none;
-}
-.header.has-back .back-btn { display: flex; align-items: center; justify-content: center; }
-.header.has-back h1 { padding-left: 28px; }
-
-/* Role Switcher */
-.role-bar {
-  display: flex; gap: 8px; padding: 12px 16px; background: white;
-  border-bottom: 1px solid var(--border); align-items: center; flex-wrap: wrap;
-}
-.role-bar select {
-  flex: 1; min-width: 80px; padding: 8px 12px; border: 1px solid var(--border);
-  border-radius: 8px; font-size: 13px; background: white; color: var(--text);
-}
-.role-btn {
-  padding: 8px 16px; border: 1px solid var(--blue); background: white; color: var(--blue);
-  border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap;
-}
-.role-btn.active { background: var(--blue); color: white; }
-
-/* Q3/Q4 Toggle */
-.quarter-toggle {
-  display: flex; gap: 4px; background: var(--bg); border-radius: 8px; padding: 3px;
-}
-.quarter-toggle button {
-  padding: 6px 14px; border: none; border-radius: 6px; font-size: 12px;
-  cursor: pointer; background: transparent; color: var(--gray); font-weight: 500;
-}
-.quarter-toggle button.active { background: var(--blue); color: white; }
-
-/* Product Cards - Home */
-.home-grid { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.product-card {
-  background: white; border-radius: 12px; padding: 16px; cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: transform 0.15s;
-}
-.product-card:active { transform: scale(0.98); }
-.product-card .card-header {
-  display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
-}
-.product-card .card-title { font-size: 16px; font-weight: 600; }
-.product-card .card-badge {
-  font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 500;
-}
-.card-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
-.card-metric { text-align: center; }
-.card-metric .metric-value { font-size: 20px; font-weight: 700; }
-.card-metric .metric-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
-
-/* KPI Section */
-.kpi-section { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; padding: 16px; }
-.kpi-box {
-  background: white; border-radius: 10px; padding: 12px 8px; text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-.kpi-box .kpi-value { font-size: 30px; font-weight: 800; line-height: 1.1; }
-.kpi-box .kpi-label { font-size: 11px; color: var(--gray); margin-top: 4px; }
-.kpi-box .kpi-sub { font-size: 11px; color: var(--gray); margin-top: 2px; }
-
-/* Progress Bar */
-.progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: 6px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
-
-/* Tables */
-.table-section { padding: 0 12px 12px; }
-.table-title {
-  font-size: 15px; font-weight: 600; padding: 12px 4px 8px; display: flex;
-  justify-content: space-between; align-items: center;
-}
-.data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-.data-table th {
-  background: #f9fafb; padding: 10px 8px; font-size: 12px; font-weight: 600;
-  color: var(--gray); text-align: left; border-bottom: 1px solid var(--border);
-  position: sticky; top: 0;
-}
-.data-table td {
-  padding: 10px 8px; font-size: 13px; border-bottom: 1px solid #f3f4f6;
-}
-.data-table tr:last-child td { border-bottom: none; }
-.data-table tr.clickable { cursor: pointer; }
-.data-table tr.clickable:active { background: #f9fafb; }
-.rank-badge {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700;
-}
-.rank-1 { background: #fef3c7; color: #d97706; }
-.rank-2 { background: #e5e7eb; color: #6b7280; }
-.rank-3 { background: #fed7aa; color: #c2410c; }
-.rank-top { background: var(--light-green); color: var(--green); }
-.rank-bottom { background: var(--light-red); color: var(--red); }
-.text-green { color: var(--green); font-weight: 600; }
-.text-blue { color: var(--blue); font-weight: 600; }
-.text-orange { color: var(--orange); font-weight: 600; }
-.text-red { color: var(--red); font-weight: 600; }
-.text-gray { color: var(--gray); font-weight: 500; }
-
-/* Expandable rows */
-.expand-row { display: none; }
-.expand-row.open { display: table-row; }
-.expand-content { padding: 8px; }
-.expand-table { width: 100%; border-collapse: collapse; }
-.expand-table th {
-  padding: 8px 6px; font-size: 11px; background: #f9fafb; color: var(--gray);
-  font-weight: 600; text-align: left;
-}
-.expand-table td { padding: 8px 6px; font-size: 12px; border-bottom: 1px solid #f3f4f6; }
-.expand-table tr.clickable { cursor: pointer; }
-.expand-table tr.clickable:active { background: #f9fafb; }
-.expand-icon { display: inline-block; transition: transform 0.2s; font-size: 10px; margin-right: 4px; color: var(--gray); }
-.expand-icon.open { transform: rotate(90deg); }
-
-/* CM List */
-.cm-list { background: #f9fafb; border-radius: 8px; margin: 4px 0; }
-.cm-item {
-  display: flex; align-items: center; padding: 8px 10px; font-size: 12px;
-  border-bottom: 1px solid var(--border);
-}
-.cm-item:last-child { border-bottom: none; }
-.cm-name { font-weight: 600; width: 60px; }
-.cm-info { flex: 1; color: var(--gray); }
-.cm-icons { display: flex; gap: 4px; }
-.cm-icon {
-  display: inline-flex; align-items: center; gap: 2px; font-size: 11px;
-  padding: 2px 6px; border-radius: 4px;
-}
-.cm-icon.done { background: var(--light-green); color: var(--green); }
-.cm-icon.need { background: #fef3c7; color: var(--orange); }
-
-/* Bottom Nav */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  max-width: 500px; width: 100%; background: white; border-top: 1px solid var(--border);
-  display: flex; z-index: 100; padding: 6px 0 env(safe-area-inset-bottom, 8px);
-}
-.nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
-  padding: 6px 2px; cursor: pointer; border: none; background: none; color: var(--gray);
-  font-size: 10px; transition: color 0.2s;
-}
-.nav-item.active { color: var(--blue); }
-.nav-item .nav-icon { font-size: 20px; }
-.nav-item .nav-label { font-weight: 500; white-space: nowrap; }
-
-/* Terminology Panel */
-.terminology {
-  margin: 12px 16px; background: white; border-radius: 10px; overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-.terminology-header {
-  padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between;
-  align-items: center; font-size: 14px; font-weight: 600;
-}
-.terminology-body { padding: 0 16px; display: none; }
-.terminology-body.open { display: block; padding: 0 16px 12px; }
-.term-item { padding: 6px 0; font-size: 12px; border-bottom: 1px solid #f3f4f6; }
-.term-item:last-child { border-bottom: none; }
-.term-name { font-weight: 600; color: var(--blue); }
-
-/* Modal */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200;
-  display: none; align-items: flex-end; justify-content: center;
-}
-.modal-overlay.open { display: flex; }
-.modal-content {
-  background: white; width: 100%; max-width: 500px; max-height: 70vh;
-  border-radius: 16px 16px 0 0; overflow-y: auto; padding: 20px;
-  animation: slideUp 0.3s ease;
-}
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.modal-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
-}
-.modal-title { font-size: 16px; font-weight: 600; }
-.modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray); }
-
-/* Loading */
-.loading { text-align: center; padding: 40px; color: var(--gray); }
-.loading::after { content: ''; display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* Utility */
-.hidden { display: none !important; }
-.flex-center { display: flex; align-items: center; justify-content: center; }
-.text-center { text-align: center; }
-.mt-8 { margin-top: 8px; }
-.px-16 { padding-left: 16px; padding-right: 16px; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--green:#10b981;--blue:#3b82f6;--orange:#f59e0b;--red:#ef4444;--gray:#9ca3af;--bg:#f3f4f6;--card:#fff;--text:#1f2937;--border:#e5e7eb;--light-green:#d1fae5;--light-red:#fee2e2}
+body{font-family:'PingFang SC',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:70px}
+.header{background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;padding:16px 20px;position:sticky;top:0;z-index:100}
+.header h1{font-size:18px;font-weight:600}
+.header .date{font-size:12px;opacity:.9;margin-top:4px;font-weight:500}
+.header .back-btn{position:absolute;left:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:none}
+.header.has-back .back-btn{display:flex;align-items:center;justify-content:center}
+.header.has-back h1{padding-left:28px}
+.role-bar{display:flex;gap:8px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--border);align-items:center;flex-wrap:wrap}
+.role-bar select{flex:1;min-width:80px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff;color:var(--text)}
+.role-btn{padding:8px 16px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;font-size:13px;cursor:pointer;white-space:nowrap}
+.role-btn.active{background:var(--blue);color:#fff}
+.quarter-toggle{display:flex;gap:4px;background:var(--bg);border-radius:8px;padding:3px}
+.quarter-toggle button{padding:6px 14px;border:none;border-radius:6px;font-size:12px;cursor:pointer;background:transparent;color:var(--gray);font-weight:500}
+.quarter-toggle button.active{background:var(--blue);color:#fff}
+.home-grid{padding:16px;display:flex;flex-direction:column;gap:12px}
+.product-card{background:#fff;border-radius:12px;padding:16px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:transform .15s}
+.product-card:active{transform:scale(.98)}
+.product-card .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.product-card .card-title{font-size:16px;font-weight:600}
+.product-card .card-badge{font-size:11px;padding:3px 8px;border-radius:10px;font-weight:500}
+.card-metrics{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.card-metric{text-align:center}
+.card-metric .metric-value{font-size:20px;font-weight:700}
+.card-metric .metric-label{font-size:11px;color:var(--gray);margin-top:2px}
+.kpi-section{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:16px}
+.kpi-box{background:#fff;border-radius:10px;padding:12px 8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.kpi-box .kpi-value{font-size:28px;font-weight:800;line-height:1.1}
+.kpi-box .kpi-label{font-size:11px;color:var(--gray);margin-top:4px}
+.progress-bar{height:6px;background:#e5e7eb;border-radius:3px;margin-top:6px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.table-section{padding:0 12px 12px}
+.table-title{font-size:15px;font-weight:600;padding:12px 4px 8px;display:flex;justify-content:space-between;align-items:center}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.data-table th{background:#f9fafb;padding:10px 8px;font-size:12px;font-weight:600;color:var(--gray);text-align:left;border-bottom:1px solid var(--border);position:sticky;top:0}
+.data-table td{padding:10px 8px;font-size:13px;border-bottom:1px solid #f3f4f6}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr.clickable{cursor:pointer}
+.data-table tr.clickable:active{background:#f9fafb}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700}
+.rank-1{background:#fef3c7;color:#d97706}
+.rank-2{background:#e5e7eb;color:#6b7280}
+.rank-3{background:#fed7aa;color:#c2410c}
+.rank-bottom{background:var(--light-red);color:var(--red)}
+.text-green{color:var(--green);font-weight:600}
+.text-blue{color:var(--blue);font-weight:600}
+.text-orange{color:var(--orange);font-weight:600}
+.text-red{color:var(--red);font-weight:600}
+.text-gray{color:var(--gray);font-weight:500}
+.badge-fail{display:inline-block;background:#f3f4f6;color:var(--gray);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.cm-list{background:#f9fafb;border-radius:8px;margin:4px 0;overflow:hidden}
+.cm-item{display:flex;align-items:center;padding:10px;font-size:12px;border-bottom:1px solid var(--border)}
+.cm-item:last-child{border-bottom:none}
+.cm-name{font-weight:600;width:55px;flex-shrink:0}
+.cm-info{flex:1;color:var(--gray);margin:0 8px}
+.cm-icons{display:flex;gap:4px;flex-wrap:wrap}
+.cm-icon{display:inline-flex;align-items:center;gap:2px;font-size:11px;padding:2px 6px;border-radius:4px}
+.cm-icon.done{background:var(--light-green);color:var(--green)}
+.cm-icon.need{background:#fef3c7;color:var(--orange)}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:500px;width:100%;background:#fff;border-top:1px solid var(--border);display:flex;z-index:100;padding:6px 0 env(safe-area-inset-bottom,8px)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;cursor:pointer;border:none;background:none;color:var(--gray);font-size:10px;transition:color .2s}
+.nav-item.active{color:var(--blue)}
+.nav-item .nav-icon{font-size:20px}
+.nav-item .nav-label{font-weight:500;white-space:nowrap}
+.terminology{margin:12px 16px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.terminology-header{padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600}
+.terminology-body{padding:0 16px;display:none}
+.terminology-body.open{display:block;padding:0 16px 12px}
+.term-item{padding:6px 0;font-size:12px;border-bottom:1px solid #f3f4f6}
+.term-item:last-child{border-bottom:none}
+.term-name{font-weight:600;color:var(--blue)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-content{background:#fff;width:100%;max-width:500px;max-height:70vh;border-radius:16px 16px 0 0;overflow-y:auto;padding:20px;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.modal-title{font-size:16px;font-weight:600}
+.modal-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--gray)}
+.breadcrumb{display:flex;gap:4px;align-items:center;padding:8px 16px;font-size:12px;color:var(--gray);background:#fff;border-bottom:1px solid var(--border)}
+.breadcrumb span{cursor:pointer;color:var(--blue)}
+.breadcrumb span.current{color:var(--text);font-weight:600;cursor:default}
+.breadcrumb .sep{color:var(--gray);cursor:default}
+.loading{text-align:center;padding:40px;color:var(--gray)}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
-
-<!-- Header -->
 <div class="header" id="header">
   <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
   <h1 id="headerTitle">融智产品通报</h1>
   <div class="date" id="headerDate"></div>
 </div>
 
-<!-- Home View -->
+<!-- HOME VIEW -->
 <div id="homeView">
-  <!-- Role Switcher -->
   <div class="role-bar">
     <button class="role-btn active" data-role="branch_all" onclick="switchRole('branch_all')">分行</button>
     <button class="role-btn" data-role="sub_branch" onclick="switchRole('sub_branch')">支行</button>
@@ -242,14 +116,11 @@ body {
       <button data-q="q3" onclick="switchQuarter('q3')">Q3</button>
     </div>
   </div>
-
   <div class="home-grid" id="homeGrid"></div>
-
-  <!-- Terminology -->
   <div class="terminology">
     <div class="terminology-header" onclick="toggleTerminology()">
       <span>📖 术语说明</span>
-      <span class="expand-icon" id="termIcon">▶</span>
+      <span class="expand-icon" id="termIcon" style="display:inline-block;transition:transform .2s;font-size:10px;color:var(--gray)">▶</span>
     </div>
     <div class="terminology-body" id="termBody">
       <div class="term-item"><span class="term-name">有价值客户数：</span>当前时点有价值客户存量数</div>
@@ -265,22 +136,17 @@ body {
   </div>
 </div>
 
-<!-- Detail View -->
+<!-- DETAIL VIEW (drill-down) -->
 <div id="detailView" class="hidden">
+  <div id="breadcrumbBar" class="breadcrumb hidden"></div>
   <div class="kpi-section" id="kpiSection"></div>
   <div class="table-section">
-    <div class="table-title">
-      <span>🏆 排名（按净增完成率）</span>
-    </div>
-    <div id="rankTableWrap"></div>
-  </div>
-  <div class="table-section">
-    <div class="table-title"><span>📊 支行明细</span></div>
-    <div id="branchTableWrap"></div>
+    <div class="table-title" id="tableTitle"></div>
+    <div id="tableWrap"></div>
   </div>
 </div>
 
-<!-- Ice-break Modal -->
+<!-- ICE MODAL -->
 <div class="modal-overlay" id="iceModal" onclick="closeIceModal(event)">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-header">
@@ -291,27 +157,17 @@ body {
   </div>
 </div>
 
-<!-- Bottom Navigation -->
+<!-- BOTTOM NAV -->
 <div class="bottom-nav" id="bottomNav">
-  <button class="nav-item active" data-product="cz" onclick="navTo('cz')">
-    <span class="nav-icon">💰</span><span class="nav-label">鲤想财资</span>
-  </button>
-  <button class="nav-item" data-product="zc" onclick="navTo('zc')">
-    <span class="nav-icon">🏊</span><span class="nav-label">锦鲤资产池</span>
-  </button>
-  <button class="nav-item" data-product="xgj" onclick="navTo('xgj')">
-    <span class="nav-icon">💼</span><span class="nav-label">鲤想薪管家</span>
-  </button>
-  <button class="nav-item" data-product="zy" onclick="navTo('zy')">
-    <span class="nav-icon">🏢</span><span class="nav-label">鲤想智园</span>
-  </button>
-  <button class="nav-item" data-product="zgj" onclick="navTo('zgj')">
-    <span class="nav-icon">🏠</span><span class="nav-label">鲤想住管家</span>
-  </button>
+  <button class="nav-item active" data-product="cz" onclick="navTo('cz')"><span class="nav-icon">💰</span><span class="nav-label">鲤想财资</span></button>
+  <button class="nav-item" data-product="zc" onclick="navTo('zc')"><span class="nav-icon">🏊</span><span class="nav-label">锦鲤资产池</span></button>
+  <button class="nav-item" data-product="xgj" onclick="navTo('xgj')"><span class="nav-icon">💼</span><span class="nav-label">鲤想薪管家</span></button>
+  <button class="nav-item" data-product="zy" onclick="navTo('zy')"><span class="nav-icon">🏢</span><span class="nav-label">鲤想智园</span></button>
+  <button class="nav-item" data-product="zgj" onclick="navTo('zgj')"><span class="nav-icon">🏠</span><span class="nav-label">鲤想住管家</span></button>
 </div>
 
 <script>
-// ============ State ============
+// ============ STATE ============
 let DATA = null;
 let CM_DATA = null;
 let currentProduct = 'cz';
@@ -319,30 +175,103 @@ let currentQuarter = 'q4';
 let currentRole = 'branch_all';
 let currentBranch = '';
 let currentTeam = '';
-let currentView = 'home'; // home | detail
-let cmCache = {};
+// Drill level: 'home' | 'branch' | 'team'
+let drillLevel = 'home';
 
 const PRODUCTS = {
-  cz:  { name: '鲤想财资', icon: '💰', fields: { value: 'value', start: 'start', q3: 'q3', q4: 'q4', net: 'net', net_target: 'net_q4_target', ice: 'ice' } },
-  zc:  { name: '锦鲤资产池', icon: '🏊', fields: { value: 'zc_value', ice: 'zc_ice' } },
-  xgj: { name: '鲤想薪管家', icon: '💼', fields: { value: 'xgj_value', ice: 'xgj_ice' } },
-  zy:  { name: '鲤想智园', icon: '🏢', fields: { value: 'zy_value', ice: 'zy_ice' } },
-  zgj: { name: '鲤想住管家', icon: '🏠', fields: { value: 'zgj_value', ice: 'zgj_ice' } }
+  cz:  { name: '鲤想财资', icon: '💰' },
+  zc:  { name: '锦鲤资产池', icon: '🏊' },
+  xgj: { name: '鲤想薪管家', icon: '💼' },
+  zy:  { name: '鲤想智园', icon: '🏢' },
+  zgj: { name: '鲤想住管家', icon: '🏠' }
 };
 
-// CM field mapping per product
+// CM field mapping: which fields in cm.json represent need/done per product
 const CM_FIELDS = {
-  cz: { need: 'cn', done: 'cd' },
-  zc: { need: 'zn', done: 'zd' },
+  cz:  { need: 'cn', done: 'cd' },
+  zc:  { need: 'zn', done: 'zd' },
   xgj: { need: 'xn', done: 'xd' }
 };
 
-// ============ Data Loading ============
+// ============ DATA ACCESSORS ============
+// Extract product data from a branch object
+function branchProduct(branchObj, pk) {
+  if (!branchObj) return null;
+  if (pk === 'cz') {
+    const d = branchObj.cz || {};
+    const net = (currentQuarter === 'q3') ? ((d.q3||0) - (d.start||0)) : (d.net||0);
+    const target = (currentQuarter === 'q3') ? 0 : (d.net_q4_target||0);
+    return {
+      value: d.value||0, net, target,
+      ice_need: d.ice?.need||0, ice_done: d.ice?.done||0, ice_rate: d.ice?.rate||0
+    };
+  }
+  const d = branchObj[pk];
+  if (typeof d === 'object' && d !== null) {
+    return {
+      value: d.value||0,
+      net: d.net||0, target: d.net_q4_target||0,
+      ice_need: d.ice?.need||0, ice_done: d.ice?.done||0, ice_rate: d.ice?.rate||0
+    };
+  }
+  // zy/zgj: {value: number, ice: "是"/"否"}
+  return { value: d?.value||0, net:0, target:0, ice_need:0, ice_done:0, ice_rate: 0, ice_str: d?.ice };
+}
+
+// Extract product data from a team object
+function teamProduct(teamObj, pk) {
+  if (!teamObj) return null;
+  if (pk === 'cz') {
+    const ice = teamObj.cz_ice || {};
+    return { value: teamObj.cz_value||0, ice_need: ice.need||0, ice_done: ice.done||0, ice_rate: ice.rate||0 };
+  }
+  if (pk === 'zc') {
+    const ice = teamObj.zc_ice || {};
+    return { value: 0, ice_need: ice.need||0, ice_done: ice.done||0, ice_rate: ice.rate||0 };
+  }
+  if (pk === 'xgj') {
+    const ice = teamObj.xgj_ice || {};
+    return { value: teamObj.xgj_value||0, ice_need: ice.need||0, ice_done: ice.done||0, ice_rate: ice.rate||0 };
+  }
+  // zy/zgj: only branch-level data, team has zy_value
+  if (pk === 'zy') return { value: teamObj.zy_value||0, ice_need:0, ice_done:0, ice_rate:0 };
+  return { value: 0, ice_need:0, ice_done:0, ice_rate:0 };
+}
+
+// ============ HELPERS ============
+function parseRate(r) {
+  if (typeof r === 'number') return r;
+  if (!r || r === '-') return 0;
+  return parseFloat(String(r).replace('%','')) || 0;
+}
+function rateClass(rate) {
+  if (rate >= 80) return 'text-green';
+  if (rate >= 50) return 'text-blue';
+  if (rate > 0) return 'text-orange';
+  return 'text-gray';
+}
+function rateColor(rate) {
+  if (rate >= 80) return 'var(--green)';
+  if (rate >= 50) return 'var(--blue)';
+  return 'var(--orange)';
+}
+function formatNetRate(net, target) {
+  if (!target || target === 0) return { text: '-', cls: 'text-gray', value: 0 };
+  const rate = net / target * 100;
+  if (rate < 0) return { text: '未达标', cls: 'text-gray', value: rate };
+  return { text: rate.toFixed(1) + '%', cls: rateClass(rate), value: rate };
+}
+function progressBar(rate) {
+  const w = Math.max(0, Math.min(100, rate));
+  return `<div class="progress-bar"><div class="progress-fill" style="width:${w}%;background:${rateColor(rate)}"></div></div>`;
+}
+
+// ============ DATA LOADING ============
 async function loadData() {
   try {
     const resp = await fetch(`data.json?t=${Date.now()}`);
     DATA = await resp.json();
-    document.getElementById('headerDate').textContent = `数据日期：${DATA.date || new Date().toLocaleDateString('zh-CN')}`;
+    document.getElementById('headerDate').textContent = `数据日期：${DATA.date || ''}`;
     populateBranchSelect();
     renderHome();
   } catch (e) {
@@ -363,7 +292,7 @@ async function loadCM() {
   }
 }
 
-// ============ Role Switching ============
+// ============ ROLE & SELECTORS ============
 function switchRole(role) {
   currentRole = role;
   document.querySelectorAll('.role-btn').forEach(b => b.classList.toggle('active', b.dataset.role === role));
@@ -371,8 +300,32 @@ function switchRole(role) {
   const ts = document.getElementById('teamSelect');
   bs.classList.toggle('hidden', role === 'branch_all');
   ts.classList.toggle('hidden', role !== 'team');
-  if (role === 'branch_all') { currentBranch = ''; currentTeam = ''; }
-  renderCurrentView();
+  if (role === 'branch_all') {
+    currentBranch = ''; currentTeam = '';
+    bs.value = '';
+  }
+  if (role !== 'team') {
+    currentTeam = '';
+    ts.value = '';
+  }
+  // If in detail view, re-render at the correct drill level
+  if (drillLevel !== 'home') {
+    syncDrillLevelFromRole();
+    renderDetail();
+  } else {
+    renderHome();
+  }
+}
+
+function syncDrillLevelFromRole() {
+  if (currentRole === 'branch_all') {
+    drillLevel = 'branch'; // show all branches in detail
+    currentBranch = ''; currentTeam = '';
+  } else if (currentRole === 'sub_branch' && currentBranch) {
+    drillLevel = 'branch'; // show teams of selected branch
+  } else if (currentRole === 'team' && currentBranch && currentTeam) {
+    drillLevel = 'team';
+  }
 }
 
 function populateBranchSelect() {
@@ -384,10 +337,15 @@ function populateBranchSelect() {
 
 function onBranchChange() {
   currentBranch = document.getElementById('branchSelect').value;
-  if (currentRole === 'team') {
-    populateTeamSelect();
+  currentTeam = '';
+  document.getElementById('teamSelect').value = '';
+  if (currentRole === 'team') populateTeamSelect();
+  if (drillLevel !== 'home') {
+    drillLevel = currentBranch ? 'branch' : 'branch';
+    renderDetail();
+  } else {
+    renderHome();
   }
-  renderCurrentView();
 }
 
 function populateTeamSelect() {
@@ -403,583 +361,19 @@ function populateTeamSelect() {
 
 function onTeamChange() {
   currentTeam = document.getElementById('teamSelect').value;
-  renderCurrentView();
+  if (drillLevel !== 'home') {
+    drillLevel = (currentTeam && currentBranch) ? 'team' : 'branch';
+    renderDetail();
+  } else {
+    renderHome();
+  }
 }
 
 function switchQuarter(q) {
   currentQuarter = q;
   document.querySelectorAll('.quarter-toggle button').forEach(b => b.classList.toggle('active', b.dataset.q === q));
-  renderCurrentView();
-}
-
-// ============ Render Helpers ============
-function getProductData(product, branchData) {
-  const p = PRODUCTS[product];
-  const f = p.fields;
-  if (product === 'cz') {
-    return {
-      value: branchData.value || 0,
-      start: branchData.start || 0,
-      q3: branchData.q3 || 0,
-      q4: branchData.q4 || 0,
-      net: branchData.net || 0,
-      net_target: branchData.net_q4_target || 0,
-      ice_need: branchData.ice?.need || 0,
-      ice_done: branchData.ice?.done || 0,
-      ice_rate: branchData.ice?.rate || '0%'
-    };
-  }
-  // For team-level data (zc, xgj, zy, zgj)
-  return null; // handled differently
-}
-
-function getTeamProductData(product, teamData) {
-  const p = PRODUCTS[product];
-  if (product === 'cz') {
-    return {
-      value: teamData.cz_value || 0,
-      ice_need: teamData.cz_ice?.need || 0,
-      ice_done: teamData.cz_ice?.done || 0,
-      ice_rate: teamData.cz_ice?.rate || '0%'
-    };
-  } else if (product === 'zc') {
-    return {
-      value: teamData.zc_value || 0,
-      ice_need: teamData.zc_ice?.need || 0,
-      ice_done: teamData.zc_ice?.done || 0,
-      ice_rate: teamData.zc_ice?.rate || '0%'
-    };
-  } else if (product === 'xgj') {
-    return {
-      value: teamData.xgj_value || 0,
-      ice_need: teamData.xgj_ice?.need || 0,
-      ice_done: teamData.xgj_ice?.done || 0,
-      ice_rate: teamData.xgj_ice?.rate || '0%'
-    };
-  }
-  return { value: teamData[p.fields.value] || 0, ice_need: 0, ice_done: 0, ice_rate: '-' };
-}
-
-function parseRate(rateStr) {
-  if (!rateStr || rateStr === '-') return 0;
-  return parseFloat(String(rateStr).replace('%', '')) || 0;
-}
-
-function rateClass(rate) {
-  if (rate >= 80) return 'text-green';
-  if (rate >= 50) return 'text-blue';
-  return 'text-orange';
-}
-
-function rateColor(rate) {
-  if (rate >= 80) return 'var(--green)';
-  if (rate >= 50) return 'var(--blue)';
-  return 'var(--orange)';
-}
-
-function formatNetRate(net, target) {
-  if (!target || target === 0) return { text: '-', cls: 'text-gray', value: 0 };
-  const rate = (net / target * 100);
-  if (rate < 0) return { text: '未达标', cls: 'text-gray', value: rate };
-  return { text: rate.toFixed(1) + '%', cls: rateClass(rate), value: rate };
-}
-
-function progressBar(rate) {
-  const w = Math.max(0, Math.min(100, rate));
-  const c = rateColor(rate);
-  return `<div class="progress-bar"><div class="progress-fill" style="width:${w}%;background:${c}"></div></div>`;
-}
-
-// ============ Home Render ============
-function renderHome() {
-  if (!DATA) return;
-  const grid = document.getElementById('homeGrid');
-  const products = ['cz', 'zc', 'xgj', 'zy', 'zgj'];
-  let html = '';
-
-  products.forEach(pk => {
-    const p = PRODUCTS[pk];
-    let totalValue = 0, totalTarget = 0, totalNet = 0, totalIceNeed = 0, totalIceDone = 0;
-
-    if (pk === 'cz') {
-      const branches = getFilteredBranchData();
-      branches.forEach(b => {
-        totalValue += (b.value || 0);
-        totalTarget += (b.net_q4_target || 0);
-        totalNet += (b.net || 0);
-        totalIceNeed += (b.ice?.need || 0);
-        totalIceDone += (b.ice?.done || 0);
-      });
-    } else {
-      const teams = getFilteredTeamData();
-      teams.forEach(t => {
-        const td = getTeamProductData(pk, t);
-        totalValue += td.value;
-        totalIceNeed += td.ice_need;
-        totalIceDone += td.ice_done;
-      });
-    }
-
-    const netRate = totalTarget > 0 ? (totalNet / totalTarget * 100) : 0;
-    const iceRate = totalIceNeed > 0 ? (totalIceDone / totalIceNeed * 100) : 0;
-    const netDisplay = netRate < 0 ? '未达标' : netRate.toFixed(1) + '%';
-    const netCls = netRate < 0 ? 'text-gray' : rateClass(netRate);
-    const iceDisplay = totalIceNeed > 0 ? iceRate.toFixed(1) + '%' : '-';
-    const iceCls = rateClass(iceRate);
-
-    // Badge color
-    let badgeBg = 'var(--light-green)', badgeColor = 'var(--green)';
-    if (netRate < 50) { badgeBg = '#fef3c7'; badgeColor = 'var(--orange)'; }
-    if (netRate < 0) { badgeBg = 'var(--light-red)'; badgeColor = 'var(--red)'; }
-
-    html += `
-      <div class="product-card" onclick="openProduct('${pk}')">
-        <div class="card-header">
-          <span class="card-title">${p.icon} ${p.name}</span>
-          <span class="card-badge" style="background:${badgeBg};color:${badgeColor}">${netDisplay}</span>
-        </div>
-        <div class="card-metrics">
-          <div class="card-metric">
-            <div class="metric-value">${totalValue}</div>
-            <div class="metric-label">有价值客户</div>
-          </div>
-          <div class="card-metric">
-            <div class="metric-value">${totalTarget || '-'}</div>
-            <div class="metric-label">Q4目标</div>
-          </div>
-          <div class="card-metric">
-            <div class="metric-value ${netCls}">${netDisplay}</div>
-            <div class="metric-label">净增完成率</div>
-          </div>
-          <div class="card-metric">
-            <div class="metric-value ${iceCls}">${iceDisplay}</div>
-            <div class="metric-label">破冰率</div>
-          </div>
-        </div>
-        ${progressBar(netRate > 0 ? netRate : 0)}
-      </div>`;
-  });
-
-  grid.innerHTML = html;
-}
-
-function getFilteredBranchData() {
-  if (!DATA || !DATA.branches) return [];
-  if (currentRole === 'branch_all') return DATA.branches;
-  if (currentBranch) return DATA.branches.filter(b => b.name === currentBranch || b.branch === currentBranch);
-  return DATA.branches;
-}
-
-function getFilteredTeamData() {
-  if (!DATA || !DATA.teams) return [];
-  let teams = DATA.teams;
-  if (currentRole === 'sub_branch' && currentBranch) {
-    teams = teams.filter(t => t.branch === currentBranch);
-  } else if (currentRole === 'team' && currentBranch) {
-    teams = teams.filter(t => t.branch === currentBranch);
-    if (currentTeam) teams = teams.filter(t => t.team === currentTeam);
-  }
-  return teams;
-}
-
-// ============ Detail View ============
-function openProduct(pk) {
-  currentProduct = pk;
-  currentView = 'detail';
-  document.getElementById('homeView').classList.add('hidden');
-  document.getElementById('detailView').classList.remove('hidden');
-  document.getElementById('header').classList.add('has-back');
-  document.getElementById('headerTitle').textContent = PRODUCTS[pk].name;
-  updateNavActive(pk);
-  renderDetail();
-}
-
-function goBack() {
-  if (currentView === 'detail') {
-    currentView = 'home';
-    document.getElementById('detailView').classList.add('hidden');
-    document.getElementById('homeView').classList.remove('hidden');
-    document.getElementById('header').classList.remove('has-back');
-    document.getElementById('headerTitle').textContent = '融智产品通报';
-    renderHome();
-  }
-}
-
-function navTo(pk) {
-  currentProduct = pk;
-  if (currentView === 'home') {
-    openProduct(pk);
-  } else {
-    document.getElementById('headerTitle').textContent = PRODUCTS[pk].name;
-    updateNavActive(pk);
-    renderDetail();
-  }
-}
-
-function updateNavActive(pk) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.product === pk));
-}
-
-function renderDetail() {
-  renderKPI();
-  renderRankTable();
-  renderBranchTable();
-}
-
-function renderCurrentView() {
-  if (currentView === 'home') renderHome();
+  if (drillLevel === 'home') renderHome();
   else renderDetail();
 }
 
-// ============ KPI ============
-function renderKPI() {
-  const section = document.getElementById('kpiSection');
-  const pk = currentProduct;
-  let totalValue = 0, totalTarget = 0, totalNet = 0, totalIceNeed = 0, totalIceDone = 0;
-
-  if (pk === 'cz') {
-    const branches = getFilteredBranchData();
-    branches.forEach(b => {
-      totalValue += (b.value || 0);
-      totalTarget += (b.net_q4_target || 0);
-      totalNet += (b.net || 0);
-      totalIceNeed += (b.ice?.need || 0);
-      totalIceDone += (b.ice?.done || 0);
-    });
-  } else {
-    const teams = getFilteredTeamData();
-    teams.forEach(t => {
-      const td = getTeamProductData(pk, t);
-      totalValue += td.value;
-      totalIceNeed += td.ice_need;
-      totalIceDone += td.ice_done;
-    });
-  }
-
-  const netRate = totalTarget > 0 ? (totalNet / totalTarget * 100) : 0;
-  const iceRate = totalIceNeed > 0 ? (totalIceDone / totalIceNeed * 100) : 0;
-  const netDisplay = netRate < 0 ? '未达标' : netRate.toFixed(1) + '%';
-  const netCls = netRate < 0 ? 'text-gray' : rateClass(netRate);
-  const iceDisplay = totalIceNeed > 0 ? iceRate.toFixed(1) + '%' : '-';
-
-  section.innerHTML = `
-    <div class="kpi-box">
-      <div class="kpi-value">${totalValue}</div>
-      <div class="kpi-label">有价值客户</div>
-    </div>
-    <div class="kpi-box">
-      <div class="kpi-value">${totalTarget || '-'}</div>
-      <div class="kpi-label">Q4目标</div>
-    </div>
-    <div class="kpi-box">
-      <div class="kpi-value ${netCls}">${netDisplay}</div>
-      <div class="kpi-label">净增完成率</div>
-      ${progressBar(netRate > 0 ? netRate : 0)}
-    </div>
-    <div class="kpi-box">
-      <div class="kpi-value ${rateClass(iceRate)}">${iceDisplay}</div>
-      <div class="kpi-label">破冰率</div>
-      ${progressBar(iceRate)}
-    </div>`;
-}
-
-// ============ Rank Table ============
-function renderRankTable() {
-  const wrap = document.getElementById('rankTableWrap');
-  const pk = currentProduct;
-  let rows = [];
-
-  if (pk === 'cz') {
-    const branches = DATA.branches || [];
-    branches.forEach(b => {
-      const net = b.net || 0;
-      const target = b.net_q4_target || 0;
-      const rate = target > 0 ? (net / target * 100) : 0;
-      const iceRate = b.ice?.rate ? parseRate(b.ice.rate) : 0;
-      rows.push({
-        name: b.name || b.branch || '',
-        value: b.value || 0,
-        net, target, rate, iceRate,
-        ice_need: b.ice?.need || 0,
-        ice_done: b.ice?.done || 0
-      });
-    });
-  } else {
-    // Group teams by branch
-    const branchMap = {};
-    const teams = getFilteredTeamData();
-    teams.forEach(t => {
-      const branch = t.branch;
-      if (!branchMap[branch]) {
-        branchMap[branch] = { name: branch, value: 0, ice_need: 0, ice_done: 0 };
-      }
-      const td = getTeamProductData(pk, t);
-      branchMap[branch].value += td.value;
-      branchMap[branch].ice_need += td.ice_need;
-      branchMap[branch].ice_done += td.ice_done;
-    });
-    Object.values(branchMap).forEach(b => {
-      b.iceRate = b.ice_need > 0 ? (b.ice_done / b.ice_need * 100) : 0;
-      b.rate = 0; // non-cz products don't have net/target at branch level in teams
-      b.net = 0; b.target = 0;
-      rows.push(b);
-    });
-    // Sort by value descending for non-cz
-    rows.sort((a, b) => b.value - a.value);
-  }
-
-  // Sort by rate descending (for cz)
-  if (pk === 'cz') {
-    rows.sort((a, b) => b.rate - a.rate);
-  }
-
-  const total = rows.length;
-  let html = '<table class="data-table"><thead><tr>';
-  html += '<th>排名</th><th>支行</th><th>有价值数</th>';
-  if (pk === 'cz') html += '<th>净增/目标</th><th>完成率</th>';
-  html += '<th>破冰率</th>';
-  html += '</tr></thead><tbody>';
-
-  rows.forEach((r, i) => {
-    const rank = i + 1;
-    let rankBadge = '';
-    let rowStyle = '';
-    if (rank <= 3) {
-      rankBadge = `<span class="rank-badge rank-${rank}">${rank}</span>`;
-      rowStyle = 'style="background:#f0fdf4"';
-    } else if (rank > total - 3 && total > 6) {
-      rankBadge = `<span class="rank-badge rank-bottom">${rank}</span>`;
-      rowStyle = 'style="background:#fef2f2"';
-    } else {
-      rankBadge = `<span style="color:var(--gray);font-weight:600">${rank}</span>`;
-    }
-
-    let rateDisplay = '';
-    if (pk === 'cz') {
-      const rd = formatNetRate(r.net, r.target);
-      rateDisplay = `<td class="${rd.cls}">${rd.text}</td>`;
-      html += `<tr ${rowStyle}><td>${rankBadge}</td><td style="font-weight:600">${r.name}</td><td>${r.value}</td><td>${r.net}/${r.target}</td>${rateDisplay}`;
-    } else {
-      html += `<tr ${rowStyle}><td>${rankBadge}</td><td style="font-weight:600">${r.name}</td><td>${r.value}</td>`;
-    }
-
-    const iceR = pk === 'cz' ? r.iceRate : r.iceRate;
-    const iceText = r.ice_need > 0 ? `${r.ice_done}/${r.ice_need}` : '-';
-    const iceRateText = iceR > 0 ? iceR.toFixed(1) + '%' : '-';
-    html += `<td class="${rateClass(iceR)}" style="cursor:pointer" onclick="showIceModal('${r.name}',${r.ice_done},${r.ice_need},'${pk}')">${iceRateText} <span style="font-size:10px;color:var(--gray)">👁</span></td>`;
-    html += '</tr>';
-  });
-
-  html += '</tbody></table>';
-  wrap.innerHTML = html;
-}
-
-// ============ Branch Detail Table (with expand) ============
-function renderBranchTable() {
-  const wrap = document.getElementById('branchTableWrap');
-  const pk = currentProduct;
-  let branchRows = [];
-
-  if (pk === 'cz') {
-    const branches = getFilteredBranchData();
-    branches.forEach(b => {
-      const net = b.net || 0;
-      const target = b.net_q4_target || 0;
-      const rate = target > 0 ? (net / target * 100) : 0;
-      const iceRate = b.ice?.rate ? parseRate(b.ice.rate) : 0;
-      branchRows.push({
-        name: b.name || b.branch || '',
-        value: b.value || 0,
-        net, target, rate, iceRate,
-        ice_need: b.ice?.need || 0,
-        ice_done: b.ice?.done || 0
-      });
-    });
-  } else {
-    const branchMap = {};
-    const teams = getFilteredTeamData();
-    teams.forEach(t => {
-      const branch = t.branch;
-      if (!branchMap[branch]) {
-        branchMap[branch] = { name: branch, value: 0, ice_need: 0, ice_done: 0 };
-      }
-      const td = getTeamProductData(pk, t);
-      branchMap[branch].value += td.value;
-      branchMap[branch].ice_need += td.ice_need;
-      branchMap[branch].ice_done += td.ice_done;
-    });
-    Object.values(branchMap).forEach(b => {
-      b.iceRate = b.ice_need > 0 ? (b.ice_done / b.ice_need * 100) : 0;
-      b.rate = 0; b.net = 0; b.target = 0;
-      branchRows.push(b);
-    });
-  }
-
-  let html = '<table class="data-table"><thead><tr>';
-  html += '<th style="width:5%"></th><th>支行</th><th>当前</th>';
-  if (pk === 'cz') html += '<th>净增/目标</th><th>完成率</th>';
-  html += '<th>破冰率</th>';
-  html += '</tr></thead><tbody>';
-
-  branchRows.forEach((br, idx) => {
-    const rowId = `br_${idx}`;
-    const rd = pk === 'cz' ? formatNetRate(br.net, br.target) : { text: '-', cls: 'text-gray' };
-    const iceR = br.iceRate || 0;
-    const iceRateText = iceR > 0 ? iceR.toFixed(1) + '%' : '-';
-
-    html += `<tr class="clickable" onclick="toggleBranch('${rowId}','${br.name}','${pk}')">`;
-    html += `<td><span class="expand-icon" id="icon_${rowId}">▶</span></td>`;
-    html += `<td style="font-weight:600">${br.name}</td>`;
-    html += `<td>${br.value}</td>`;
-    if (pk === 'cz') {
-      html += `<td>${br.net}/${br.target}</td>`;
-      html += `<td class="${rd.cls}">${rd.text}</td>`;
-    }
-    html += `<td class="${rateClass(iceR)}" style="cursor:pointer" onclick="event.stopPropagation();showIceModal('${br.name}',${br.ice_done},${br.ice_need},'${pk}')">${iceRateText}</td>`;
-    html += '</tr>';
-
-    // Expandable team rows container
-    html += `<tr class="expand-row" id="${rowId}"><td colspan="${pk === 'cz' ? 6 : 4}">`;
-    html += `<div class="expand-content" id="content_${rowId}"><div class="loading" style="padding:12px;font-size:12px">加载中...</div></div>`;
-    html += '</td></tr>';
-  });
-
-  html += '</tbody></table>';
-  wrap.innerHTML = html;
-}
-
-// ============ Toggle Expand ============
-async function toggleBranch(rowId, branchName, pk) {
-  const row = document.getElementById(rowId);
-  const icon = document.getElementById('icon_' + rowId);
-  const content = document.getElementById('content_' + rowId);
-
-  if (row.classList.contains('open')) {
-    row.classList.remove('open');
-    icon.classList.remove('open');
-    return;
-  }
-
-  row.classList.add('open');
-  icon.classList.add('open');
-
-  // Load teams for this branch
-  const teams = (DATA.teams || []).filter(t => t.branch === branchName);
-  if (teams.length === 0) {
-    content.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--gray)">暂无团队数据</div>';
-    return;
-  }
-
-  let html = '<table class="expand-table"><thead><tr>';
-  html += '<th style="width:5%"></th><th>团队</th><th>有价值数</th><th>破冰率</th>';
-  html += '</tr></thead><tbody>';
-
-  teams.forEach((t, ti) => {
-    const tid = `${rowId}_t${ti}`;
-    const td = getTeamProductData(pk, t);
-    const iceRate = td.ice_rate !== '-' ? parseRate(td.ice_rate) : (td.ice_need > 0 ? (td.ice_done / td.ice_need * 100) : 0);
-    const iceRateText = iceRate > 0 ? iceRate.toFixed(1) + '%' : '-';
-
-    html += `<tr class="clickable" onclick="toggleTeam('${tid}','${branchName}','${t.team}','${pk}')">`;
-    html += `<td><span class="expand-icon" id="icon_${tid}">▶</span></td>`;
-    html += `<td style="font-weight:500">${t.team}</td>`;
-    html += `<td>${td.value}</td>`;
-    html += `<td class="${rateClass(iceRate)}" onclick="event.stopPropagation();showIceModal('${t.team}',${td.ice_done},${td.ice_need},'${pk}')">${iceRateText}</td>`;
-    html += '</tr>';
-
-    // Expandable CM rows
-    html += `<tr class="expand-row" id="${tid}"><td colspan="4">`;
-    html += `<div id="content_${tid}"><div class="loading" style="padding:8px;font-size:12px">加载中...</div></div>`;
-    html += '</td></tr>';
-  });
-
-  html += '</tbody></table>';
-  content.innerHTML = html;
-}
-
-async function toggleTeam(tid, branchName, teamName, pk) {
-  const row = document.getElementById(tid);
-  const icon = document.getElementById('icon_' + tid);
-  const content = document.getElementById('content_' + tid);
-
-  if (row.classList.contains('open')) {
-    row.classList.remove('open');
-    icon.classList.remove('open');
-    return;
-  }
-
-  row.classList.add('open');
-  icon.classList.add('open');
-
-  // Load CM data
-  const cms = await loadCM();
-  const teamCMs = cms.filter(c => c.b === branchName && c.t === teamName);
-
-  if (teamCMs.length === 0) {
-    content.innerHTML = '<div style="padding:8px;font-size:12px;color:var(--gray)">暂无客户经理数据</div>';
-    return;
-  }
-
-  const cmf = CM_FIELDS[pk] || CM_FIELDS.cz;
-  let html = '<div class="cm-list">';
-  teamCMs.forEach(cm => {
-    const needVal = cm[cmf.need] || 0;
-    const doneVal = cm[cmf.done] || 0;
-    const isDone = doneVal > 0 || doneVal === true || doneVal === '是';
-
-    html += '<div class="cm-item">';
-    html += `<span class="cm-name">${cm.n || ''}</span>`;
-    html += `<span class="cm-info">${cm.m || 0}月 · ${cm.q || '-'}</span>`;
-    html += '<span class="cm-icons">';
-    html += `<span class="cm-icon ${isDone ? 'done' : 'need'}">${isDone ? '✓' : '✗'} 破冰</span>`;
-    html += '</span></div>';
-  });
-  html += '</div>';
-  content.innerHTML = html;
-}
-
-// ============ Ice Modal ============
-function showIceModal(name, done, need, pk) {
-  document.getElementById('iceModalTitle').textContent = `${name} - 破冰明细`;
-  const body = document.getElementById('iceModalBody');
-  const rate = need > 0 ? (done / need * 100).toFixed(1) + '%' : '-';
-
-  body.innerHTML = `
-    <div style="display:flex;gap:16px;margin-bottom:16px">
-      <div style="text-align:center;flex:1">
-        <div style="font-size:24px;font-weight:700">${done}</div>
-        <div style="font-size:12px;color:var(--gray)">已破冰</div>
-      </div>
-      <div style="text-align:center;flex:1">
-        <div style="font-size:24px;font-weight:700">${need}</div>
-        <div style="font-size:12px;color:var(--gray)">应破冰</div>
-      </div>
-      <div style="text-align:center;flex:1">
-        <div style="font-size:24px;font-weight:700" class="${rateClass(parseRate(rate))}">${rate}</div>
-        <div style="font-size:12px;color:var(--gray)">破冰率</div>
-      </div>
-    </div>
-    ${progressBar(parseRate(rate))}
-  `;
-
-  document.getElementById('iceModal').classList.add('open');
-}
-
-function closeIceModal(e) {
-  if (e && e.target !== e.currentTarget) return;
-  document.getElementById('iceModal').classList.remove('open');
-}
-
-// ============ Terminology ============
-function toggleTerminology() {
-  const body = document.getElementById('termBody');
-  const icon = document.getElementById('termIcon');
-  body.classList.toggle('open');
-  icon.classList.toggle('open');
-}
-
-// ============ Init ============
-document.addEventListener('DOMContentLoaded', loadData);
-</script>
-</body>
-</html>
+// ============ HOME
