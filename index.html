@@ -153,7 +153,7 @@ let last=-1;
 sorted.forEach(idx=>{
 if(last>=0&&idx-last>1)result.push({type:'ellipsis'});
 const cls=idx===myIdx?'rank-mine':idx<3?'rank-top':idx>=len-3?'rank-bottom':Math.abs(idx-myIdx)<=3?'rank-near':'';
-result.push({type:'row,item':ranked[idx],cls,rank:idx+1});
+result.push({type:'row',item:ranked[idx],cls,rank:idx+1});
 last=idx;
 });
 }
