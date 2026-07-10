@@ -327,11 +327,11 @@ function buildProductCard(prod,vd,vt,id,it,mode){
   }
 
   if(mode==='ice'){
-    var is2=it?(it.已破冰||0):(id?(id.年初||0):0);
+    var is2=id?(id.年初||0):(it?(it.年初||0):0);
     var ic=id?(id.当前||0):(it?(it.已破冰||0):0);
     var in2=id?(id.净增||0):0;
-    var int2=it?(it.净增||0):(id?(id.净增目标||0):0);
-    var iabs=is2+int2;
+    var int2=it?qNetTarget(CUR_Q,it):(id?(id.净增目标||0):0);
+    var iabs=it?qTarget(CUR_Q,it):is2+int2;
     var ir=pct(in2,int2);
     var ist=id?(id.状态||''):'';
     h+='<div class="metric-flow">';
