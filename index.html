@@ -249,7 +249,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","SF Pro Display"
 
 <script>
 var USERS={"admin": {"p": "111111", "branch": "all", "role": "admin"}, "fenhang": {"p": "fh20260630", "branch": "all", "role": "admin"}, "000662": {"p": "5788", "branch": "上海分行营业部", "role": "branch"}, "001302": {"p": "9332", "branch": "上海闵行支行", "role": "branch"}, "000740": {"p": "7677", "branch": "上海松江支行", "role": "branch"}, "004669": {"p": "7542", "branch": "上海嘉定支行", "role": "branch"}, "002983": {"p": "2558", "branch": "上海浦东支行", "role": "branch"}, "000379": {"p": "0707", "branch": "上海青浦支行", "role": "branch"}, "007468": {"p": "0697", "branch": "上海南汇支行", "role": "branch"}, "002302": {"p": "5577", "branch": "上海奉贤支行", "role": "branch"}, "001733": {"p": "6951", "branch": "上海杨浦支行", "role": "branch"}, "000242": {"p": "4777", "branch": "上海曹安支行", "role": "branch"}, "001679": {"p": "0004", "branch": "上海宝山支行", "role": "branch"}, "002977": {"p": "6234", "branch": "上海川沙支行", "role": "branch"}, "001512": {"p": "9422", "branch": "上海金山支行", "role": "branch"}, "002956": {"p": "7772", "branch": "上海闸北支行", "role": "branch"}, "001728": {"p": "1168", "branch": "上海徐汇支行", "role": "branch"}, "000166": {"p": "0988", "branch": "上海普陀支行", "role": "branch"}, "004967": {"p": "3790", "branch": "上海黄浦支行", "role": "branch"}, "008266": {"p": "7107", "branch": "上海南翔支行", "role": "branch"}, "003583": {"p": "5665", "branch": "上海唐镇支行", "role": "branch"}, "004944": {"p": "3155", "branch": "上海高行支行", "role": "branch"}, "002962": {"p": "9910", "branch": "上海新桥支行", "role": "branch"}, "006732": {"p": "4467", "branch": "上海周浦支行", "role": "branch"}, "003559": {"p": "9029", "branch": "上海航头支行", "role": "branch"}, "001660": {"p": "5552", "branch": "上海华新支行", "role": "branch"}, "001407": {"p": "2211", "branch": "上海松江城区支行", "role": "branch"}, "002948": {"p": "2937", "branch": "上海莘庄支行", "role": "branch"}, "008426": {"p": "5075", "branch": "上海静安支行", "role": "branch"}, "005201": {"p": "0530", "branch": "上海长宁支行", "role": "branch"}, "004571": {"p": "1308", "branch": "上海虹口支行", "role": "branch"}, "002015": {"p": "9606", "branch": "上海大场支行", "role": "branch"}, "000964": {"p": "2155", "branch": "上海罗店支行", "role": "branch"}, "010320": {"p": "5787", "branch": "上海分行奉贤区域发展部", "role": "branch"}, "003524": {"p": "5827", "branch": "上海高境支行", "role": "branch"}};
-var UPDATE_DATE="2026-07-05";
+var UPDATE_DATE="";
 
 var ANON_NAMES=false;
 function anonName(n){
@@ -262,6 +262,7 @@ var DATA_READY=false;
 fetch('data.json?v='+Math.random()).then(function(r){return r.json();}).then(function(d){
 DATA=d;
 DATA_READY=true;
+if(d.date)UPDATE_DATE=d.date;
 var u=sessionStorage.getItem('u');
 if(u&&USERS[u]){showDash();}
 }).catch(function(e){console.error('Failed to load data:',e);});
