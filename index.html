@@ -372,7 +372,7 @@ function showDash(){
   h+='</div>';
   h+='<div class="q-tabs">';
   h+='<span style="color:rgba(255,255,255,.35);font-size:11px;padding:5px 6px 5px 0">考核目标：</span>';
-  ['Q3','Q4'].forEach(function(q){h+='<button class="q-tab'+(q===CUR_Q?' active':'')+'" onclick="switchQ(\''+q+'\')">'+q+'目标</button>';});
+  ['Q4'].forEach(function(q){h+='<button class="q-tab active">'+q+'目标</button>';});
   h+='</div></div>';
 
   // Main Tabs
